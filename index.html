@@ -339,89 +339,151 @@ button { font-family: inherit; cursor: pointer; }
   padding: 3px 9px; border-radius: 5px;
 }
 
-/* ═══════════════════ FASHION & NEWS ═══════════════════ */
+/* ═══════════════════ FASHION TREND & INSPO ═══════════════════ */
 .section-fashion {
   padding: clamp(40px, 6vw, 64px) clamp(1rem, 4vw, 2rem);
   max-width: 1120px; margin: 0 auto;
 }
-.fashion-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
+
+/* ── Tab bar ── */
+.inspo-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 28px;
+  padding: 6px;
+  background: var(--gray-100);
+  border-radius: 14px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
 }
-.fashion-card {
-  background: var(--white);
-  border-radius: 14px; overflow: hidden;
-  border: 1px solid var(--gray-200);
-  transition: all 0.3s ease;
-  display: flex; flex-direction: column;
-}
-.fashion-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-hover);
-  border-color: var(--teal-200);
-}
-.fashion-card-img {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  background: linear-gradient(135deg, var(--teal-700), var(--teal-900));
-}
-.fashion-card-img[data-cat="sport"]    { background: linear-gradient(135deg, #f97316, #c2410c); }
-.fashion-card-img[data-cat="casual"]   { background: linear-gradient(135deg, #14b8a6, #0f766e); }
-.fashion-card-img[data-cat="street"]   { background: linear-gradient(135deg, #334155, #0f172a); }
-.fashion-card-img[data-cat="uniform"]  { background: linear-gradient(135deg, #c8a96e, #8a6d1b); }
-.fashion-card-img img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-.fashion-card:hover .fashion-card-img img { transform: scale(1.06); }
-.fashion-card-img::after {
-  content: "";
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.7) 100%);
-  pointer-events: none;
-}
-.fashion-card-overlay {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  padding: 40px 16px 16px;
-  z-index: 2;
-}
-.fashion-card-tag {
-  display: inline-block;
-  font-size: 10px; font-weight: 700;
-  color: rgba(255,255,255,0.85);
-  letter-spacing: 0.15em; text-transform: uppercase;
-  margin-bottom: 6px;
-}
-.fashion-card-overlay h3 {
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(15px, 1.8vw, 18px);
-  font-weight: 700; color: var(--white);
-  line-height: 1.25; letter-spacing: -0.01em;
-}
-.fashion-card-body {
-  padding: 14px 16px 16px;
-  display: flex; flex-direction: column;
-  flex: 1; gap: 10px;
-}
-.fashion-card-desc {
-  font-size: 12px;
+.inspo-tabs::-webkit-scrollbar { display: none; }
+.inspo-tab {
+  flex: 1 1 auto;
+  min-width: max-content;
+  padding: 10px 18px;
+  border: none;
+  background: transparent;
   color: var(--gray-500);
-  line-height: 1.5;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
 }
-.fashion-fabric-tags {
-  display: flex; flex-wrap: wrap; gap: 5px;
-  margin-top: auto;
+.inspo-tab:hover { color: var(--teal-700); }
+.inspo-tab.active {
+  background: var(--white);
+  color: var(--teal-900);
+  box-shadow: 0 4px 14px rgba(15, 118, 110, 0.12);
 }
-.fashion-tag {
-  font-size: 10px; font-weight: 600;
+.inspo-tab.active::before {
+  content: "";
+  display: inline-block;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* ── Panels ── */
+.inspo-panel {
+  display: none;
+  animation: inspoFadeIn 0.4s ease-out;
+}
+.inspo-panel.active { display: block; }
+@keyframes inspoFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.inspo-panel-header {
+  margin-bottom: 24px;
+  max-width: 720px;
+}
+.inspo-panel-header h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 700;
+  color: var(--teal-900);
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+.inspo-panel-header p {
+  font-size: clamp(13px, 1.8vw, 15px);
+  color: var(--gray-500);
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+.inspo-tags {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.inspo-tag {
+  font-size: 11px;
+  font-weight: 600;
   color: var(--teal-800);
   background: var(--teal-50);
   border: 1px solid var(--teal-200);
-  padding: 3px 8px; border-radius: 5px;
-  letter-spacing: 0.01em;
+  padding: 4px 11px;
+  border-radius: 6px;
+}
+
+/* ── Bento gallery ── */
+.inspo-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 12px;
+}
+.inspo-gallery-item {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--teal-800), var(--teal-900));
+  transition: transform 0.3s ease;
+  cursor: zoom-in;
+}
+.inspo-gallery-item::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,0.35) 100%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.inspo-gallery-item:hover { transform: translateY(-3px); }
+.inspo-gallery-item:hover::after { opacity: 1; }
+.inspo-gallery-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  display: block;
+}
+.inspo-gallery-item:hover img { transform: scale(1.06); }
+.inspo-gallery-item.no-img::before {
+  content: "Fashion Inspo";
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.5);
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Bento: item 1 & 6 lebih besar (span 2 kolom) — 4 col x 2 row = 6 items */
+.inspo-gallery-item:nth-child(1) {
+  grid-column: span 2;
+  aspect-ratio: 2 / 1;
+}
+.inspo-gallery-item:nth-child(6) {
+  grid-column: span 2;
+  aspect-ratio: 2 / 1;
 }
 
 /* =======================
@@ -723,7 +785,7 @@ button { font-family: inherit; cursor: pointer; }
   .best-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
   .stock-grid { grid-template-columns: repeat(2, 1fr); }
   .artikel-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .fashion-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .inspo-gallery { grid-template-columns: repeat(4, 1fr); }
 }
 
 /* ═══════════════════ RESPONSIVE — MOBILE ═══════════════════ */
@@ -748,15 +810,32 @@ button { font-family: inherit; cursor: pointer; }
   .best-sold-value { font-size: 16px; }
   .best-trend { font-size: 10px; padding: 3px 6px; }
 
-  /* Fashion: 2 kolom di mobile */
-  .fashion-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .fashion-card-img { aspect-ratio: 4 / 5; }
-  .fashion-card-overlay { padding: 30px 12px 12px; }
-  .fashion-card-overlay h3 { font-size: 14px; }
-  .fashion-card-tag { font-size: 9px; letter-spacing: 0.1em; }
-  .fashion-card-body { padding: 12px 12px 14px; gap: 8px; }
-  .fashion-card-desc { font-size: 11px; }
-  .fashion-tag { font-size: 9px; padding: 2px 7px; }
+  /* Fashion Inspo — tab jadi lebih compact, bento jadi 2 kolom */
+  .inspo-tabs {
+    gap: 4px; padding: 4px;
+    margin: 0 -4px 20px;
+  }
+  .inspo-tab {
+    padding: 9px 14px;
+    font-size: 12px;
+    flex: 0 0 auto;
+  }
+  .inspo-panel-header { margin-bottom: 18px; }
+  .inspo-panel-header p { line-height: 1.6; }
+  .inspo-tag { font-size: 10px; padding: 3px 9px; }
+  .inspo-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  /* Di mobile, bento pattern lebih sederhana: item pertama full-width */
+  .inspo-gallery-item:nth-child(1) {
+    grid-column: span 2;
+    aspect-ratio: 2 / 1;
+  }
+  .inspo-gallery-item:nth-child(6) {
+    grid-column: span 2;
+    aspect-ratio: 2 / 1;
+  }
 
   .section-header { flex-direction: column; align-items: flex-start; }
 
@@ -837,6 +916,10 @@ button { font-family: inherit; cursor: pointer; }
   .best-card-body { padding: 10px 12px; }
   .best-rank { width: 26px; height: 26px; font-size: 11px; top: 8px; left: 8px; }
 
+  /* Inspo gallery: gap lebih kecil di layar sangat sempit */
+  .inspo-gallery { gap: 8px; }
+  .inspo-panel-header h3 { font-size: 18px; }
+
   .cta-actions { flex-direction: column; align-items: center; }
   .cta-actions .btn { width: 100%; justify-content: center; }
 
@@ -847,8 +930,6 @@ button { font-family: inherit; cursor: pointer; }
 
 @media (max-width: 360px) {
   .stock-grid { grid-template-columns: 1fr; }
-  .fashion-grid { grid-template-columns: 1fr; }
-  .fashion-card-img { aspect-ratio: 16 / 10; }
   .artikel-card { flex: 0 0 86%; }
 }
 </style>
@@ -1029,87 +1110,132 @@ button { font-family: inherit; cursor: pointer; }
   </div>
 </section>
 
-<!-- ═══════════════════ FASHION & NEWS ═══════════════════ -->
+<!-- ═══════════════════ FASHION TREND & INSPO ═══════════════════ -->
 <section class="section-fashion reveal" id="fashion">
   <div class="section-header">
     <div>
       <span class="section-eyebrow gold">Fashion Guide</span>
-      <h2 class="section-title">Fashion &amp; News</h2>
-      <p class="section-desc">Rekomendasi jenis kain terbaik untuk setiap kategori fashion &mdash; dari performa olahraga hingga tampilan streetwear.</p>
+      <h2 class="section-title">Fashion Trend &amp; Inspo</h2>
+      <p class="section-desc">Setiap jenis kain punya karakter fashion-nya sendiri. Pilih kain di bawah untuk melihat inspirasi busana yang bisa Anda buat.</p>
     </div>
   </div>
 
-  <div class="fashion-grid">
-    <div class="fashion-card">
-      <div class="fashion-card-img" data-cat="sport">
-        <img src="Image/Fashion/sportswear.jpg" alt="Sportswear" onerror="this.style.display='none'; this.parentNode.classList.add('no-img');">
-        <div class="fashion-card-overlay">
-          <span class="fashion-card-tag">Category 01</span>
-          <h3>Sportswear &amp; Activewear</h3>
-        </div>
-      </div>
-      <div class="fashion-card-body">
-        <p class="fashion-card-desc">Kain elastis, breathable, dan cepat kering untuk performa maksimal.</p>
-        <div class="fashion-fabric-tags">
-          <span class="fashion-tag">Cotton Fleece</span>
-          <span class="fashion-tag">M-TIIS Flexxair</span>
-          <span class="fashion-tag">Polyester Dry</span>
-        </div>
+  <!-- Tab bar -->
+  <div class="inspo-tabs" role="tablist">
+    <button class="inspo-tab active" data-tab="cvc" role="tab">CVC Premium</button>
+    <button class="inspo-tab" data-tab="combed" role="tab">Cotton Combed</button>
+    <button class="inspo-tab" data-tab="special" role="tab">Cotton Special</button>
+    <button class="inspo-tab" data-tab="knitease" role="tab">Knitease Danball</button>
+    <button class="inspo-tab" data-tab="bamboo" role="tab">Bamboo Cotton</button>
+  </div>
+
+  <!-- Panel: CVC Premium -->
+  <div class="inspo-panel active" data-panel="cvc" role="tabpanel">
+    <div class="inspo-panel-header">
+      <h3>CVC Premium</h3>
+      <p>Perpaduan cotton dan polyester dengan karakter halus, tidak mudah kusut, dan tahan lama. Cocok untuk polo shirt, seragam kantor, dan casual wear elegan.</p>
+      <div class="inspo-tags">
+        <span class="inspo-tag">Polo Shirt</span>
+        <span class="inspo-tag">Seragam Kantor</span>
+        <span class="inspo-tag">Casual Tee</span>
+        <span class="inspo-tag">Lacoste</span>
       </div>
     </div>
+    <div class="inspo-gallery">
+      <div class="inspo-gallery-item"><img src="Image/Inspo/cvc/1.jpg" alt="CVC Premium fashion inspo 1" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/cvc/2.jpg" alt="CVC Premium fashion inspo 2" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/cvc/3.jpg" alt="CVC Premium fashion inspo 3" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/cvc/4.jpg" alt="CVC Premium fashion inspo 4" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/cvc/5.jpg" alt="CVC Premium fashion inspo 5" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/cvc/6.jpg" alt="CVC Premium fashion inspo 6" onerror="this.parentNode.classList.add('no-img')"></div>
+    </div>
+  </div>
 
-    <div class="fashion-card">
-      <div class="fashion-card-img" data-cat="casual">
-        <img src="Image/Fashion/casualwear.jpg" alt="Casualwear" onerror="this.style.display='none'; this.parentNode.classList.add('no-img');">
-        <div class="fashion-card-overlay">
-          <span class="fashion-card-tag">Category 02</span>
-          <h3>Casualwear</h3>
-        </div>
-      </div>
-      <div class="fashion-card-body">
-        <p class="fashion-card-desc">Kaos harian yang nyaman, adem, dan tahan lama untuk pemakaian sehari-hari.</p>
-        <div class="fashion-fabric-tags">
-          <span class="fashion-tag">Cotton Combed 24s</span>
-          <span class="fashion-tag">Cotton Combed 30s</span>
-          <span class="fashion-tag">CVC Premium</span>
-        </div>
+  <!-- Panel: Cotton Combed -->
+  <div class="inspo-panel" data-panel="combed" role="tabpanel">
+    <div class="inspo-panel-header">
+      <h3>Cotton Combed</h3>
+      <p>Kain kaos favorit brand distro dan clothing line — halus, adem, dan nyaman untuk pemakaian harian. Ideal untuk kaos custom dan streetwear ringan.</p>
+      <div class="inspo-tags">
+        <span class="inspo-tag">Kaos Distro</span>
+        <span class="inspo-tag">Custom Design</span>
+        <span class="inspo-tag">T-Shirt Harian</span>
+        <span class="inspo-tag">Brand Clothing</span>
       </div>
     </div>
+    <div class="inspo-gallery">
+      <div class="inspo-gallery-item"><img src="Image/Inspo/combed/1.jpg" alt="Cotton Combed fashion inspo 1" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/combed/2.jpg" alt="Cotton Combed fashion inspo 2" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/combed/3.jpg" alt="Cotton Combed fashion inspo 3" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/combed/4.jpg" alt="Cotton Combed fashion inspo 4" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/combed/5.jpg" alt="Cotton Combed fashion inspo 5" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/combed/6.jpg" alt="Cotton Combed fashion inspo 6" onerror="this.parentNode.classList.add('no-img')"></div>
+    </div>
+  </div>
 
-    <div class="fashion-card">
-      <div class="fashion-card-img" data-cat="street">
-        <img src="Image/Fashion/streetwear.jpg" alt="Streetwear" onerror="this.style.display='none'; this.parentNode.classList.add('no-img');">
-        <div class="fashion-card-overlay">
-          <span class="fashion-card-tag">Category 03</span>
-          <h3>Streetwear</h3>
-        </div>
-      </div>
-      <div class="fashion-card-body">
-        <p class="fashion-card-desc">Kain heavyweight dengan karakter kuat untuk gaya urban dan oversized fit.</p>
-        <div class="fashion-fabric-tags">
-          <span class="fashion-tag">Cotton Special Versa Heavy</span>
-          <span class="fashion-tag">CVC Lacoste</span>
-          <span class="fashion-tag">Cotton Combed 20s</span>
-        </div>
+  <!-- Panel: Cotton Special (Versa Heavy) -->
+  <div class="inspo-panel" data-panel="special" role="tabpanel">
+    <div class="inspo-panel-header">
+      <h3>Cotton Special &mdash; Versa Heavy</h3>
+      <p>Kain heavyweight dengan tekstur kokoh dan tebal. Cocok untuk oversized tee, streetwear urban, dan look premium yang berkarakter kuat.</p>
+      <div class="inspo-tags">
+        <span class="inspo-tag">Oversized Tee</span>
+        <span class="inspo-tag">Streetwear</span>
+        <span class="inspo-tag">Heavyweight</span>
+        <span class="inspo-tag">Urban Look</span>
       </div>
     </div>
+    <div class="inspo-gallery">
+      <div class="inspo-gallery-item"><img src="Image/Inspo/special/1.jpg" alt="Cotton Special fashion inspo 1" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/special/2.jpg" alt="Cotton Special fashion inspo 2" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/special/3.jpg" alt="Cotton Special fashion inspo 3" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/special/4.jpg" alt="Cotton Special fashion inspo 4" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/special/5.jpg" alt="Cotton Special fashion inspo 5" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/special/6.jpg" alt="Cotton Special fashion inspo 6" onerror="this.parentNode.classList.add('no-img')"></div>
+    </div>
+  </div>
 
-    <div class="fashion-card">
-      <div class="fashion-card-img" data-cat="uniform">
-        <img src="Image/Fashion/uniform.jpg" alt="Uniform" onerror="this.style.display='none'; this.parentNode.classList.add('no-img');">
-        <div class="fashion-card-overlay">
-          <span class="fashion-card-tag">Category 04</span>
-          <h3>Uniform &amp; Seragam</h3>
-        </div>
+  <!-- Panel: Knitease Danball -->
+  <div class="inspo-panel" data-panel="knitease" role="tabpanel">
+    <div class="inspo-panel-header">
+      <h3>Knitease Danball</h3>
+      <p>Kain rajut dengan sifat elastis, breathable, dan cepat kering. Sempurna untuk activewear, sport jersey, dan busana athleisure modern.</p>
+      <div class="inspo-tags">
+        <span class="inspo-tag">Activewear</span>
+        <span class="inspo-tag">Sport Jersey</span>
+        <span class="inspo-tag">Athleisure</span>
+        <span class="inspo-tag">Flexxair</span>
       </div>
-      <div class="fashion-card-body">
-        <p class="fashion-card-desc">Kain rapi, awet, dan mudah dijahit untuk seragam kantor, sekolah, dan perusahaan.</p>
-        <div class="fashion-fabric-tags">
-          <span class="fashion-tag">CVC Lacoste</span>
-          <span class="fashion-tag">Enzywash</span>
-          <span class="fashion-tag">Cotton Combed 24s</span>
-        </div>
+    </div>
+    <div class="inspo-gallery">
+      <div class="inspo-gallery-item"><img src="Image/Inspo/knitease/1.jpg" alt="Knitease Danball fashion inspo 1" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/knitease/2.jpg" alt="Knitease Danball fashion inspo 2" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/knitease/3.jpg" alt="Knitease Danball fashion inspo 3" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/knitease/4.jpg" alt="Knitease Danball fashion inspo 4" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/knitease/5.jpg" alt="Knitease Danball fashion inspo 5" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/knitease/6.jpg" alt="Knitease Danball fashion inspo 6" onerror="this.parentNode.classList.add('no-img')"></div>
+    </div>
+  </div>
+
+  <!-- Panel: Bamboo Cotton -->
+  <div class="inspo-panel" data-panel="bamboo" role="tabpanel">
+    <div class="inspo-panel-header">
+      <h3>Bamboo Cotton</h3>
+      <p>Kain eco-friendly berbahan serat bambu yang lembut, adem, dan anti-bakteri alami. Cocok untuk premium tee, minimalist wear, dan brand sustainable fashion.</p>
+      <div class="inspo-tags">
+        <span class="inspo-tag">Premium Tee</span>
+        <span class="inspo-tag">Eco Fashion</span>
+        <span class="inspo-tag">Minimalist</span>
+        <span class="inspo-tag">Sustainable</span>
       </div>
+    </div>
+    <div class="inspo-gallery">
+      <div class="inspo-gallery-item"><img src="Image/Inspo/bamboo/1.jpg" alt="Bamboo Cotton fashion inspo 1" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/bamboo/2.jpg" alt="Bamboo Cotton fashion inspo 2" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/bamboo/3.jpg" alt="Bamboo Cotton fashion inspo 3" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/bamboo/4.jpg" alt="Bamboo Cotton fashion inspo 4" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/bamboo/5.jpg" alt="Bamboo Cotton fashion inspo 5" onerror="this.parentNode.classList.add('no-img')"></div>
+      <div class="inspo-gallery-item"><img src="Image/Inspo/bamboo/6.jpg" alt="Bamboo Cotton fashion inspo 6" onerror="this.parentNode.classList.add('no-img')"></div>
     </div>
   </div>
 </section>
@@ -1422,11 +1548,27 @@ function renderArtikelCards() {
   }).join('');
 }
 
+// ═══════════════════ FASHION INSPO TAB SWITCHER ═══════════════════
+function initInspoTabs() {
+  var tabs = document.querySelectorAll('.inspo-tab');
+  var panels = document.querySelectorAll('.inspo-panel');
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var target = tab.getAttribute('data-tab');
+      tabs.forEach(function(t) { t.classList.toggle('active', t === tab); });
+      panels.forEach(function(p) { p.classList.toggle('active', p.getAttribute('data-panel') === target); });
+      // Scroll tab yang aktif ke tengah viewport tab bar (untuk mobile)
+      tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    });
+  });
+}
+
 // Init
 renderStockCards();
 initCounters();
 updateSyncTime();
 renderArtikelCards();
+initInspoTabs();
 </script>
 </body>
 </html>
