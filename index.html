@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Fabriku Member — Akses Eksklusif Pelanggan Setia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════ RESET & BASE ═══════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --teal-900: #0c4a4a;
+  --teal-800: #0f5e5e;
+  --teal-700: #0f766e;
+  --teal-600: #0d9488;
+  --teal-500: #14b8a6;
+  --teal-400: #2dd4bf;
+  --teal-300: #5eead4;
+  --teal-200: #99f6e4;
+  --teal-100: #ccfbf1;
+  --teal-50:  #f0fdfa;
+  --gold: #c8a96e;
+  --gold-light: rgba(200,169,110,0.15);
+  --dark: #111827;
+  --gray-900: #1f2937;
+  --gray-700: #374151;
+  --gray-600: #4b5563;
+  --gray-500: #6b7280;
+  --gray-400: #9ca3af;
+  --gray-300: #d1d5db;
+  --gray-200: #e5e7eb;
+  --gray-100: #f3f4f6;
+  --gray-50:  #f9fafb;
+  --white: #ffffff;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow-hover: 0 8px 30px rgba(13,148,136,0.12);
+}
+::selection { background: var(--teal-600); color: var(--white); }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+  background: var(--gray-50);
+  color: var(--dark);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  padding-bottom: 0;
+}
+img { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; }
+
+/* ═══════════════════ NAVBAR ═══════════════════ */
+/* Mobile bottom nav */
+.bottom-nav {
+  display: none; position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--white); border-top: 1px solid var(--gray-200);
+  z-index: 100; padding: 6px 0 env(safe-area-inset-bottom, 6px);
+}
+.bottom-nav-inner {
+  display: flex; justify-content: space-around; align-items: center;
+}
+.bottom-nav-item {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 6px 12px; border: none; background: none;
+  font-size: 10px; font-weight: 600; color: var(--gray-400);
+  transition: color 0.2s;
+}
+.bottom-nav-item.active { color: var(--teal-700); }
+.bottom-nav-item svg { width: 22px; height: 22px; }
+
+/* ═══════════════════ BUTTONS ═══════════════════ */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 24px; border-radius: 10px;
+  font-weight: 600; font-size: 14px;
+  border: none; transition: all 0.25s ease;
+  white-space: nowrap;
+}
+.btn-primary { background: var(--teal-700); color: var(--white); }
+.btn-primary:hover { background: var(--teal-600); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(13,148,136,0.3); }
+.btn-outline { background: transparent; color: var(--teal-700); border: 2px solid var(--teal-700); }
+.btn-outline:hover { background: var(--teal-700); color: var(--white); }
+.btn-gold { background: var(--gold); color: var(--dark); font-weight: 700; }
+.btn-gold:hover { background: #b8944e; transform: translateY(-1px); }
+.btn-ghost { background: rgba(255,255,255,0.1); color: var(--white); border: 1px solid rgba(255,255,255,0.2); }
+.btn-ghost:hover { background: rgba(255,255,255,0.2); }
+
+/* ═══════════════════ SECTION HEADERS ═══════════════════ */
+.section-eyebrow {
+  font-size: 11px; font-weight: 700; color: var(--teal-500);
+  letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 6px; display: block;
+}
+.section-eyebrow.gold { color: var(--gold); }
+.section-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(22px, 4vw, 36px);
+  font-weight: 700; color: var(--teal-900);
+  letter-spacing: -0.01em;
+}
+.section-desc { color: var(--gray-500); font-size: clamp(13px, 2vw, 14px); margin-top: 6px; }
+
+/* ═══════════════════ NEW PRODUCTS (GRID) ═══════════════════ */
+.section-new {
+  padding: clamp(40px, 6vw, 64px) clamp(1rem, 4vw, 2rem);
+  max-width: 1120px; margin: 0 auto;
+}
+.section-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+}
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+/* ═══════════════════ PRODUCT CARD ═══════════════════ */
+.product-card {
+  background: var(--white);
+  border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--gray-200);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+.product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+.product-card-img {
+  position: relative; aspect-ratio: 1 / 1; overflow: hidden;
+  background: var(--teal-900);
+}
+.product-card-img img { width: 100%; height: 100%; object-fit: cover; }
+.product-badge-new {
+  position: absolute; top: 12px; left: 12px;
+  background: var(--teal-500); color: var(--white);
+  font-size: 10px; font-weight: 700;
+  padding: 4px 10px; border-radius: 5px;
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
+
+.product-price-tag {
+  position: absolute; bottom: 12px; left: 12px;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 8px; padding: 6px 12px;
+  color: var(--white);
+}
+.product-price-label { font-size: 9px; font-weight: 500; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.05em; }
+.product-price-value { font-size: 15px; font-weight: 800; letter-spacing: -0.01em; }
+.product-card-body { padding: 12px 14px 14px; }
+.product-card-body h3 { font-size: 15px; font-weight: 700; color: var(--teal-900); margin-bottom: 8px; line-height: 1.3; }
+.product-card-meta { display: flex; justify-content: space-between; align-items: center; gap: 6px; flex-wrap: wrap; }
+.product-jenis {
+  background: var(--teal-50); color: var(--teal-700);
+  font-size: 11px; font-weight: 600;
+  padding: 3px 8px; border-radius: 5px;
+}
+.product-warna {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 700; color: var(--teal-700);
+  background: var(--teal-100);
+  border: 1px solid var(--teal-200);
+  padding: 3px 10px; border-radius: 99px;
+  letter-spacing: 0.01em;
+}
+
+/* ═══════════════════ STOCK SECTION ═══════════════════ */
+.section-stock {
+  background: var(--teal-900); padding: clamp(40px, 7vw, 72px) clamp(1rem, 4vw, 2rem);
+  color: var(--white);
+}
+.section-stock .section-title { color: var(--white); }
+.section-stock .section-desc { color: rgba(255,255,255,0.5); }
+.stock-inner { max-width: 1120px; margin: 0 auto; }
+.stock-sync-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px; padding: 8px 14px;
+  font-size: 11px; color: rgba(255,255,255,0.65);
+}
+.live-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #22c55e; display: inline-block;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* stock summary */
+.stock-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px; margin-bottom: 28px;
+}
+.stock-stat-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius); padding: clamp(14px, 3vw, 22px) clamp(14px, 3vw, 24px);
+}
+.stock-stat-label { font-size: clamp(10px, 1.5vw, 12px); color: rgba(255,255,255,0.45); font-weight: 500; margin-bottom: 4px; }
+.stock-stat-value { font-size: clamp(22px, 4vw, 32px); font-weight: 800; letter-spacing: -0.02em; }
+.stock-stat-unit { font-size: clamp(11px, 1.5vw, 14px); font-weight: 400; color: rgba(255,255,255,0.45); }
+
+/* stock cards with image */
+.stock-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+}
+.stock-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius); overflow: hidden;
+  transition: all 0.25s ease;
+  display: flex; flex-direction: column;
+}
+.stock-card:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-2px);
+}
+.stock-card-image {
+  width: 100%; aspect-ratio: 1 / 1; overflow: hidden;
+  position: relative;
+}
+.stock-card-image img {
+  width: 100%; height: 100%; object-fit: cover;
+  opacity: 0.8;
+}
+.stock-card-image .stock-status {
+  position: absolute; top: 10px; right: 10px;
+}
+.stock-card-content {
+  padding: 16px 18px 18px;
+  display: flex; flex-direction: column; gap: 12px;
+  flex: 1;
+}
+.stock-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.stock-card-name { font-size: 16px; font-weight: 700; line-height: 1.3; }
+.stock-status {
+  padding: 4px 10px; border-radius: 6px;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.stock-status.high { background: #065f46; color: #6ee7b7; }
+.stock-status.medium { background: #78350f; color: #fde68a; }
+.stock-status.low { background: #7f1d1d; color: #fca5a5; }
+.stock-card-amount { display: flex; align-items: baseline; gap: 6px; }
+.stock-card-number { font-size: clamp(22px, 3.5vw, 28px); font-weight: 800; letter-spacing: -0.02em; }
+.stock-card-unit { font-size: 12px; color: rgba(255,255,255,0.5); font-weight: 500; }
+.stock-card-bar {
+  height: 4px; border-radius: 2px;
+  background: rgba(255,255,255,0.1); overflow: hidden;
+}
+.stock-card-bar-fill { height: 100%; border-radius: 2px; transition: width 1.2s ease; }
+.stock-card-bar-fill.high { background: var(--teal-400); }
+.stock-card-bar-fill.medium { background: #fbbf24; }
+.stock-card-bar-fill.low { background: #f87171; }
+.stock-card-variants { display: flex; flex-wrap: wrap; gap: 5px; }
+.stock-variant-tag {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 5px; padding: 3px 8px;
+  font-size: 10px; font-weight: 500; color: rgba(255,255,255,0.7);
+}
+.stock-footnote {
+  font-size: 11px; color: rgba(255,255,255,0.3);
+  margin-top: 20px; text-align: center;
+}
+
+/* ═══════════════════ BEST SELLERS ═══════════════════ */
+.section-best {
+  padding: clamp(40px, 7vw, 72px) clamp(1rem, 4vw, 2rem);
+  max-width: 1120px; margin: 0 auto;
+}
+.best-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.best-card {
+  background: var(--white);
+  border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--gray-200);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+.best-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+.best-card-thumb {
+  position: relative;
+  flex: 0 0 130px;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--teal-900);
+}
+.best-card-thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+.best-rank {
+  position: absolute; top: 10px; left: 10px;
+  width: 30px; height: 30px; border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 12px; color: var(--white);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+.best-rank.r1 { background: var(--gold); }
+.best-rank.r2 { background: #a8a8a8; }
+.best-rank.r3 { background: #b87333; }
+.best-rank.r4 { background: var(--teal-700); }
+.best-card-body {
+  flex: 1;
+  padding: 14px 16px;
+  display: flex; flex-direction: column;
+  justify-content: center; gap: 8px;
+  min-width: 0;
+}
+.best-card-body h3 {
+  font-size: clamp(14px, 1.8vw, 16px);
+  font-weight: 700; color: var(--teal-900);
+  line-height: 1.3; letter-spacing: -0.01em;
+}
+.best-card-stats { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.best-sold-label { font-size: 10px; color: var(--gray-400); font-weight: 500; margin-bottom: 2px; }
+.best-sold-value { font-size: clamp(16px, 2vw, 19px); font-weight: 800; color: var(--teal-900); letter-spacing: -0.02em; }
+.best-sold-unit { font-size: 10px; font-weight: 500; color: var(--gray-400); }
+.best-trend {
+  background: var(--teal-50); color: var(--teal-700);
+  font-size: 11px; font-weight: 700;
+  padding: 3px 7px; border-radius: var(--radius-sm);
+  display: flex; align-items: center; gap: 3px;
+  flex-shrink: 0;
+}
+.best-jenis-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.best-jenis-label { font-size: 10px; color: var(--gray-400); }
+.best-jenis-tag {
+  background: var(--teal-700); color: var(--white);
+  font-size: 10px; font-weight: 600;
+  padding: 3px 9px; border-radius: 5px;
+}
+
+/* ═══════════════════ FASHION & NEWS ═══════════════════ */
+.section-fashion {
+  padding: clamp(40px, 6vw, 64px) clamp(1rem, 4vw, 2rem);
+  max-width: 1120px; margin: 0 auto;
+}
+.fashion-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.fashion-card {
+  background: var(--white);
+  border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--gray-200);
+  transition: all 0.3s ease;
+  display: flex; flex-direction: column;
+}
+.fashion-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--teal-200);
+}
+.fashion-card-img {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--teal-700), var(--teal-900));
+}
+.fashion-card-img[data-cat="sport"]    { background: linear-gradient(135deg, #f97316, #c2410c); }
+.fashion-card-img[data-cat="casual"]   { background: linear-gradient(135deg, #14b8a6, #0f766e); }
+.fashion-card-img[data-cat="street"]   { background: linear-gradient(135deg, #334155, #0f172a); }
+.fashion-card-img[data-cat="uniform"]  { background: linear-gradient(135deg, #c8a96e, #8a6d1b); }
+.fashion-card-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.fashion-card:hover .fashion-card-img img { transform: scale(1.06); }
+.fashion-card-img::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.7) 100%);
+  pointer-events: none;
+}
+.fashion-card-overlay {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 40px 16px 16px;
+  z-index: 2;
+}
+.fashion-card-tag {
+  display: inline-block;
+  font-size: 10px; font-weight: 700;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 0.15em; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.fashion-card-overlay h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(15px, 1.8vw, 18px);
+  font-weight: 700; color: var(--white);
+  line-height: 1.25; letter-spacing: -0.01em;
+}
+.fashion-card-body {
+  padding: 14px 16px 16px;
+  display: flex; flex-direction: column;
+  flex: 1; gap: 10px;
+}
+.fashion-card-desc {
+  font-size: 12px;
+  color: var(--gray-500);
+  line-height: 1.5;
+}
+.fashion-fabric-tags {
+  display: flex; flex-wrap: wrap; gap: 5px;
+  margin-top: auto;
+}
+.fashion-tag {
+  font-size: 10px; font-weight: 600;
+  color: var(--teal-800);
+  background: var(--teal-50);
+  border: 1px solid var(--teal-200);
+  padding: 3px 8px; border-radius: 5px;
+  letter-spacing: 0.01em;
+}
+
+/* =======================
+      OUR PARTNERS
+========================== */
+.partners-header{
+    max-width:900px;
+    margin:0 auto 50px;
+    text-align:center;
+}
+
+.partners-header h2{
+    font-size:48px;
+    font-weight:700;
+    color:#0f766e;
+    margin:10px 0 18px;
+
+}
+
+.partners-header p{
+    font-size:18px;
+    color:#6b7280;
+    line-height:1.7;
+    max-width:700px;
+    margin:auto;
+
+}
+
+.partners-eyebrow{
+    display:block;
+    letter-spacing:3px;
+    font-size:13px;
+    color:#c49b42;
+    font-weight:700;
+    text-transform:uppercase;
+}
+
+.partners-section{
+    padding:55px 0;
+    background:#fff;
+    overflow:hidden;
+}
+
+.section-header.center{
+    text-align:center;
+    margin-bottom:45px;
+}
+
+.partners-slider{
+    position:relative;
+    overflow:hidden;
+    width:100%;
+}
+
+.partners-track{
+    display:flex;
+    align-items:center;
+    width:max-content;
+    animation:partnerMove 35s linear infinite;
+}
+
+.partner-item{
+    flex: 0 0 auto;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:0 28px;          /* smaller gap */
+    height:150px;            /* row height */
+}
+
+.partner-item img{
+    height:200px;             /* increase logo size */
+    width:auto;
+    max-width:none;
+    max-height:none;
+    object-fit:contain;
+    filter:grayscale(100%);
+    opacity:.8;
+    transition:.3s ease;
+}
+
+.partner-item img:hover{
+    filter:none;
+    opacity:1;
+    transform:scale(1.08);
+}
+@keyframes partnerMove{
+    from{
+        transform:translateX(0);
+    }
+    to{
+        transform:translateX(-50%);
+    }
+}
+
+/* ===== MOBILE PARTNERS (BIG LOGO VERSION) ===== */
+@media (max-width: 768px) {
+
+    .partners-section{
+        padding:40px 0;
+    }
+
+    .partners-header{
+        margin-bottom:28px;
+        padding:0 16px;
+    }
+
+    .partners-header h2{
+        font-size:34px;
+    }
+
+    .partners-header p{
+        font-size:15px;
+        line-height:1.6;
+    }
+
+    /* BIGGER LOGO + SMALLER GAP */
+    .partner-item{
+        flex:0 0 auto;
+        height:110px;          /* taller row */
+        padding:0 28px;        /* much smaller gap */
+        margin:0;              /* remove large spacing */
+    }
+
+    .partner-item img{
+        height:110px;           /* MUCH bigger logo */
+        width:auto;
+        max-width:none;
+        max-height:none;
+        object-fit:contain;
+    }
+
+    .partners-track{
+        gap:4px;               /* tiny extra spacing */
+        animation-duration:25s;
+    }
+}
+
+
+/* ═══════════════════ ARTIKEL / BLOG SECTION ═══════════════════ */
+.section-artikel {
+  padding: clamp(40px, 6vw, 64px) clamp(1rem, 4vw, 2rem);
+  max-width: 1120px; margin: 0 auto;
+}
+.artikel-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.artikel-card {
+  background: var(--white);
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--gray-200);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: inherit;
+}
+.artikel-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--teal-200);
+}
+.artikel-card-img {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--teal-900);
+}
+.artikel-card-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.artikel-card:hover .artikel-card-img img { transform: scale(1.05); }
+.artikel-card-img::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,0.35) 100%);
+  pointer-events: none;
+}
+.artikel-category {
+  position: absolute; top: 10px; left: 10px; z-index: 2;
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--teal-800);
+  font-size: 10px; font-weight: 700;
+  padding: 4px 9px; border-radius: 5px;
+  letter-spacing: 0.05em; text-transform: uppercase;
+}
+.artikel-card-body {
+  padding: 14px 16px 16px;
+  display: flex; flex-direction: column;
+  flex: 1; gap: 8px;
+}
+.artikel-date {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 500; color: var(--gray-500);
+}
+.artikel-date svg { width: 12px; height: 12px; flex-shrink: 0; }
+.artikel-card-body h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--teal-900);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color 0.2s;
+}
+.artikel-card:hover .artikel-card-body h3 { color: var(--teal-700); }
+.artikel-cta {
+  margin-top: auto; padding-top: 4px;
+  font-size: 12px; font-weight: 600;
+  color: var(--teal-700);
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.artikel-cta svg {
+  width: 12px; height: 12px;
+  transition: transform 0.25s;
+}
+.artikel-card:hover .artikel-cta svg { transform: translateX(3px); }
+
+/* CTA footer of section */
+.artikel-footer-cta {
+  display: flex; justify-content: center;
+  margin-top: 28px;
+}
+.btn-artikel-all {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 22px;
+  border: 2px solid var(--teal-700);
+  color: var(--teal-700);
+  background: transparent;
+  border-radius: 10px;
+  font-size: 13px; font-weight: 600;
+  transition: all 0.25s;
+}
+.btn-artikel-all:hover {
+  background: var(--teal-700);
+  color: var(--white);
+  box-shadow: 0 6px 20px rgba(15,118,110,0.25);
+}
+.btn-artikel-all svg { width: 14px; height: 14px; transition: transform 0.25s; }
+.btn-artikel-all:hover svg { transform: translateX(3px); }
+
+/* ═══════════════════ CTA ═══════════════════ */
+.section-cta {
+  padding: clamp(40px, 6vw, 64px) clamp(1rem, 4vw, 2rem);
+  max-width: 800px; margin: 0 auto;
+}
+.cta-box {
+  background: linear-gradient(135deg, var(--teal-900) 0%, var(--teal-700) 50%, var(--teal-900) 100%);
+  border-radius: clamp(16px, 3vw, 24px); padding: clamp(36px, 6vw, 60px) clamp(20px, 4vw, 40px);
+  text-align: center; position: relative; overflow: hidden;
+}
+.cta-circle { position: absolute; border-radius: 50%; background: rgba(20,184,166,0.08); }
+.cta-circle.c1 { top: -40px; right: -40px; width: 180px; height: 180px; }
+.cta-circle.c2 { bottom: -60px; left: -60px; width: 220px; height: 220px; }
+.cta-content { position: relative; }
+.cta-content h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 700; color: var(--white);
+  margin-bottom: 12px;
+}
+.cta-content p {
+  color: rgba(255,255,255,0.6); font-size: clamp(13px, 2vw, 15px);
+  line-height: 1.65; max-width: 480px; margin: 0 auto 24px;
+}
+.cta-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+/* ═══════════════════ FOOTER ═══════════════════ */
+.footer {
+  border-top: 1px solid var(--gray-200);
+  padding: 24px clamp(1rem, 4vw, 2rem); text-align: center;
+}
+.footer p { font-size: 12px; color: var(--gray-400); }
+
+/* ═══════════════════ ANIMATIONS ═══════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp 0.6s ease forwards; }
+
+/* ═══════════════════ SCROLL REVEAL ═══════════════════ */
+.reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══════════════════ RESPONSIVE — TABLET ═══════════════════ */
+@media (max-width: 1024px) {
+  .product-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .best-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .stock-grid { grid-template-columns: repeat(2, 1fr); }
+  .artikel-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .fashion-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+}
+
+/* ═══════════════════ RESPONSIVE — MOBILE ═══════════════════ */
+@media (max-width: 768px) {
+  .bottom-nav { display: block; }
+  body { padding-bottom: 64px; }
+
+  .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+  .stock-summary { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .stock-card-image { aspect-ratio: 1 / 1; }
+  .stock-card-content { padding: 12px 14px 14px; gap: 10px; }
+  .stock-card-name { font-size: 14px; }
+  .stock-card-number { font-size: 20px; }
+
+  /* Best sellers: tetap horizontal, 1 kolom penuh di mobile */
+  .best-grid { grid-template-columns: 1fr; gap: 10px; }
+  .best-card-thumb { flex: 0 0 110px; }
+  .best-card-body { padding: 12px 14px; gap: 6px; }
+  .best-card-body h3 { font-size: 14px; }
+  .best-sold-value { font-size: 16px; }
+  .best-trend { font-size: 10px; padding: 3px 6px; }
+
+  /* Fashion: 2 kolom di mobile */
+  .fashion-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .fashion-card-img { aspect-ratio: 4 / 5; }
+  .fashion-card-overlay { padding: 30px 12px 12px; }
+  .fashion-card-overlay h3 { font-size: 14px; }
+  .fashion-card-tag { font-size: 9px; letter-spacing: 0.1em; }
+  .fashion-card-body { padding: 12px 12px 14px; gap: 8px; }
+  .fashion-card-desc { font-size: 11px; }
+  .fashion-tag { font-size: 9px; padding: 2px 7px; }
+
+  .section-header { flex-direction: column; align-items: flex-start; }
+
+  /* ── Artikel: snap-scroll carousel di mobile ── */
+  .section-artikel {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .section-artikel > .section-header,
+  .section-artikel > .artikel-footer-cta {
+    padding-left: clamp(1rem, 4vw, 2rem);
+    padding-right: clamp(1rem, 4vw, 2rem);
+  }
+  .artikel-grid {
+    display: flex;
+    grid-template-columns: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 12px;
+    padding: 6px 16px 10px;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 16px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .artikel-grid::-webkit-scrollbar { display: none; }
+  .artikel-card {
+    flex: 0 0 78%;
+    max-width: 320px;
+    scroll-snap-align: start;
+  }
+  .artikel-card-img { aspect-ratio: 16 / 9; }
+  .artikel-card-body {
+    padding: 12px 14px 14px;
+    gap: 6px;
+  }
+  .artikel-card-body h3 {
+    font-size: 15px;
+    -webkit-line-clamp: 2;
+  }
+  .artikel-date {
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .artikel-cta {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .artikel-footer-cta { margin-top: 16px; }
+}
+
+@media (max-width: 480px) {
+  .stock-summary { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .stock-stat-card { padding: 10px 12px; }
+  .stock-stat-value { font-size: 20px; }
+  .stock-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stock-card-image { aspect-ratio: 1 / 1; }
+  .stock-card-content { padding: 10px 12px 12px; gap: 8px; }
+  .stock-card-name { font-size: 13px; }
+  .stock-card-number { font-size: 18px; }
+  .stock-variant-tag { font-size: 9px; padding: 2px 6px; }
+
+  /* Product card mobile compact */
+  .product-card-img { aspect-ratio: 4 / 3; }
+  .product-card-body { padding: 10px 12px 12px; }
+  .product-card-body h3 { font-size: 13px; margin-bottom: 6px; }
+  .product-jenis { font-size: 9px; padding: 2px 6px; }
+  .product-warna { font-size: 9px; padding: 2px 7px; gap: 3px; }
+  .product-warna svg { width: 11px; height: 11px; }
+  .product-card-img .product-badge-new { font-size: 8px; padding: 3px 7px; top: 8px; left: 8px; }
+  .product-price-tag { padding: 4px 8px; border-radius: 6px; bottom: 8px; left: 8px; }
+  .product-price-label { font-size: 8px; }
+  .product-price-value { font-size: 12px; }
+
+  /* Best seller lebih kompak di layar sempit */
+  .best-card-thumb { flex: 0 0 96px; }
+  .best-card-body { padding: 10px 12px; }
+  .best-rank { width: 26px; height: 26px; font-size: 11px; top: 8px; left: 8px; }
+
+  .cta-actions { flex-direction: column; align-items: center; }
+  .cta-actions .btn { width: 100%; justify-content: center; }
+
+  .footer { padding-bottom: 80px; }
+
+  .artikel-card { flex: 0 0 82%; }
+}
+
+@media (max-width: 360px) {
+  .stock-grid { grid-template-columns: 1fr; }
+  .fashion-grid { grid-template-columns: 1fr; }
+  .fashion-card-img { aspect-ratio: 16 / 10; }
+  .artikel-card { flex: 0 0 86%; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ NEW PRODUCTS ═══════════════════ -->
+<section class="section-new reveal" id="new">
+  <div class="section-header">
+    <div>
+      <span class="section-eyebrow gold">Baru Hadir</span>
+      <h2 class="section-title">Produk Terbaru</h2>
+      <p class="section-desc">Pesan duluan sebelum kehabisan.</p>
+    </div>
+  </div>
+
+  <div class="product-grid">
+    <div class="product-card">
+      <div class="product-card-img">
+        <img src="Image/cover homepage utama-01.png" alt="CVC">
+        <span class="product-badge-new">Baru</span>
+        <div class="product-price-tag"><div class="product-price-label">Mulai</div><div class="product-price-value">Rp 96.000</div></div>
+      </div>
+      <div class="product-card-body"><h3>CVC Premium</h3><div class="product-card-meta"><span class="product-jenis">CVC</span><span class="product-warna"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>42 warna</span></div></div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-img">
+        <img src="Image/cover homepage utama-03.png" alt="Cotton">
+        <span class="product-badge-new">Baru</span>
+        <div class="product-price-tag"><div class="product-price-label">Mulai</div><div class="product-price-value">Rp 108.000</div></div>
+      </div>
+      <div class="product-card-body"><h3>Cotton Combed</h3><div class="product-card-meta"><span class="product-jenis">Cotton</span><span class="product-warna"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>77 warna</span></div></div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-img">
+        <img src="Image/cover homepage utama-04.png" alt="Cotton Special">
+        <span class="product-badge-new">Baru</span>
+        <div class="product-price-tag"><div class="product-price-label">Mulai</div><div class="product-price-value">Rp 103.000</div></div>
+      </div>
+      <div class="product-card-body"><h3>Cotton Special</h3><div class="product-card-meta"><span class="product-jenis">Cotton Special</span><span class="product-warna"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>36 warna</span></div></div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-img">
+        <img src="Image/cover homepage utama-06.png" alt="Cotton Fleece">
+        <span class="product-badge-new">Baru</span>
+        <div class="product-price-tag"><div class="product-price-label">Mulai</div><div class="product-price-value">Rp 112.000</div></div>
+      </div>
+      <div class="product-card-body"><h3>Cotton Fleece</h3><div class="product-card-meta"><span class="product-jenis">Fleece</span><span class="product-warna"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>28 warna</span></div></div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-img">
+        <img src="Image/cover homepage utama-02.png" alt="Knitease Danball">
+        <span class="product-badge-new">Baru</span>
+        <div class="product-price-tag"><div class="product-price-label">Mulai</div><div class="product-price-value">Rp 98.000</div></div>
+      </div>
+      <div class="product-card-body"><h3>Knitease Danball</h3><div class="product-card-meta"><span class="product-jenis">M-TIIS Flexxair</span><span class="product-warna"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>18 warna</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ STOCK INFORMATION ═══════════════════ -->
+<section class="section-stock reveal" id="stock">
+  <div class="stock-inner">
+    <div class="section-header">
+      <div>
+        <span class="section-eyebrow" style="color:var(--teal-300);">Update Langsung</span>
+        <h2 class="section-title" style="color:var(--white);">Stok Kain Saat Ini</h2>
+        <p class="section-desc" style="color:rgba(255,255,255,0.5);">Lihat stok kain yang tersedia langsung dari gudang kami.</p>
+      </div>
+      <div class="stock-sync-badge">
+        <span class="live-dot"></span>
+        <span id="syncTime">Sync terakhir: memuat...</span>
+      </div>
+    </div>
+    <div class="stock-summary">
+      <div class="stock-stat-card">
+        <div class="stock-stat-label">Stok Tersedia</div>
+        <div class="stock-stat-value"><span id="totalStockNum">0</span> <span class="stock-stat-unit">Kg</span></div>
+      </div>
+      <div class="stock-stat-card">
+        <div class="stock-stat-label">Kategori Produk</div>
+        <div class="stock-stat-value" id="totalKategori">0</div>
+      </div>
+      <div class="stock-stat-card">
+        <div class="stock-stat-label">Varian Tersedia</div>
+        <div class="stock-stat-value" id="totalVarian">0</div>
+      </div>
+    </div>
+    <div class="stock-grid" id="stockGrid"></div>
+    <p class="stock-footnote">* Stok diupdate otomatis dari gudang Fabriku. Untuk order besar, langsung hubungi kami.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ BEST SELLERS ═══════════════════ -->
+<section class="section-best reveal" id="best">
+  <div style="margin-bottom:28px;">
+    <span class="section-eyebrow gold">Best Seller</span>
+    <h2 class="section-title">Paling Laris Bulan Ini</h2>
+    <p class="section-desc">Kain favorit yang paling sering dipesan ulang oleh pelanggan.</p>
+  </div>
+  <div class="best-grid">
+    <div class="best-card">
+      <div class="best-card-thumb">
+        <img src="image/cover homepage utama-03.png" alt="Cotton Combed 24s">
+        <div class="best-rank r1">#1</div>
+      </div>
+      <div class="best-card-body">
+        <h3>Cotton Combed 24s</h3>
+        <div class="best-card-stats">
+          <div>
+            <div class="best-sold-label">Terjual</div>
+            <div class="best-sold-value">28.450 <span class="best-sold-unit">Kg</span></div>
+          </div>
+          <div class="best-trend">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 15l-6-6-6 6"/></svg>+12%
+          </div>
+        </div>
+        <div class="best-jenis-row"><span class="best-jenis-label">Tipe Favorit:</span><span class="best-jenis-tag">Enzywash</span></div>
+      </div>
+    </div>
+    <div class="best-card">
+      <div class="best-card-thumb">
+        <img src="Image/cover homepage utama-01.png" alt="CVC 24s Lacoste">
+        <div class="best-rank r2">#2</div>
+      </div>
+      <div class="best-card-body">
+        <h3>CVC 24s Lacoste</h3>
+        <div class="best-card-stats">
+          <div>
+            <div class="best-sold-label">Terjual</div>
+            <div class="best-sold-value">19.963 <span class="best-sold-unit">Kg</span></div>
+          </div>
+          <div class="best-trend">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 15l-6-6-6 6"/></svg>+8%
+          </div>
+        </div>
+        <div class="best-jenis-row"><span class="best-jenis-label">Tipe Favorit:</span><span class="best-jenis-tag">Lacoste 36"</span></div>
+      </div>
+    </div>
+    <div class="best-card">
+      <div class="best-card-thumb">
+        <img src="Image/cover homepage utama-04.png" alt="Cotton Special Versa Heavy">
+        <div class="best-rank r3">#3</div>
+      </div>
+      <div class="best-card-body">
+        <h3>Cotton Special Versa Heavy</h3>
+        <div class="best-card-stats">
+          <div>
+            <div class="best-sold-label">Terjual</div>
+            <div class="best-sold-value">15.193 <span class="best-sold-unit">Kg</span></div>
+          </div>
+          <div class="best-trend">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 15l-6-6-6 6"/></svg>+15%
+          </div>
+        </div>
+        <div class="best-jenis-row"><span class="best-jenis-label">Tipe Favorit:</span><span class="best-jenis-tag">Versa Heavy</span></div>
+      </div>
+    </div>
+    <div class="best-card">
+      <div class="best-card-thumb">
+        <img src="Image/cover homepage utama-02.png" alt="Knitease Danball">
+        <div class="best-rank r4">#4</div>
+      </div>
+      <div class="best-card-body">
+        <h3>Knitease Danball</h3>
+        <div class="best-card-stats">
+          <div>
+            <div class="best-sold-label">Terjual</div>
+            <div class="best-sold-value">11.242 <span class="best-sold-unit">Kg</span></div>
+          </div>
+          <div class="best-trend">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 15l-6-6-6 6"/></svg>+22%
+          </div>
+        </div>
+        <div class="best-jenis-row"><span class="best-jenis-label">Tipe Favorit:</span><span class="best-jenis-tag">M-TIIS Flexxair</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FASHION & NEWS ═══════════════════ -->
+<section class="section-fashion reveal" id="fashion">
+  <div class="section-header">
+    <div>
+      <span class="section-eyebrow gold">Fashion Guide</span>
+      <h2 class="section-title">Fashion &amp; News</h2>
+      <p class="section-desc">Rekomendasi jenis kain terbaik untuk setiap kategori fashion &mdash; dari performa olahraga hingga tampilan streetwear.</p>
+    </div>
+  </div>
+
+  <div class="fashion-grid">
+    <div class="fashion-card">
+      <div class="fashion-card-img" data-cat="sport">
+        <img src="Image/Fashion/sportswear.jpg" alt="Sportswear" onerror="this.style.display='none'; this.parentNode.classList.add('no-img');">
+        <div class="fashion-card-overlay">
+          <span class="fashion-card-tag">Category 01</span>
+          <h3>Sportswear &amp; Activewear</h3>
+        </div>
+      </div>
+      <div class="fashion-card-body">
+        <p class="fashion-card-desc">Kain elastis, breathable, dan cepat kering untuk performa maksimal.</p>
+        <div class="fashion-fabric-tags">
+          <span class="fashion-tag">Cotton Fleece</span>
+          <span class="fashion-tag">M-TIIS Flexxair</span>
+          <span class="fashion-tag">Polyester Dry</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fashion-card">
+      <div class="fashion-card-img" data-cat="casual">
+        <img src="Image/Fashion/casualwear.jpg" alt="Casualwear" onerror="this.style.display='none'; this.parentNode.classList.add('no-img');">
+        <div class="fashion-card-overlay">
+          <span class="fashion-card-tag">Category 02</span>
+          <h3>Casualwear</h3>
+        </div>
+      </div>
+      <div class="fashion-card-body">
+        <p class="fashion-card-desc">Kaos harian yang nyaman, adem, dan tahan lama untuk pemakaian sehari-hari.</p>
+        <div class="fashion-fabric-tags">
+          <span class="fashion-tag">Cotton Combed 24s</span>
+          <span class="fashion-tag">Cotton Combed 30s</span>
+          <span class="fashion-tag">CVC Premium</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fashion-card">
+      <div class="fashion-card-img" data-cat="street">
+        <img src="Image/Fashion/streetwear.jpg" alt="Streetwear" onerror="this.style.display='none'; this.parentNode.classList.add('no-img');">
+        <div class="fashion-card-overlay">
+          <span class="fashion-card-tag">Category 03</span>
+          <h3>Streetwear</h3>
+        </div>
+      </div>
+      <div class="fashion-card-body">
+        <p class="fashion-card-desc">Kain heavyweight dengan karakter kuat untuk gaya urban dan oversized fit.</p>
+        <div class="fashion-fabric-tags">
+          <span class="fashion-tag">Cotton Special Versa Heavy</span>
+          <span class="fashion-tag">CVC Lacoste</span>
+          <span class="fashion-tag">Cotton Combed 20s</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fashion-card">
+      <div class="fashion-card-img" data-cat="uniform">
+        <img src="Image/Fashion/uniform.jpg" alt="Uniform" onerror="this.style.display='none'; this.parentNode.classList.add('no-img');">
+        <div class="fashion-card-overlay">
+          <span class="fashion-card-tag">Category 04</span>
+          <h3>Uniform &amp; Seragam</h3>
+        </div>
+      </div>
+      <div class="fashion-card-body">
+        <p class="fashion-card-desc">Kain rapi, awet, dan mudah dijahit untuk seragam kantor, sekolah, dan perusahaan.</p>
+        <div class="fashion-fabric-tags">
+          <span class="fashion-tag">CVC Lacoste</span>
+          <span class="fashion-tag">Enzywash</span>
+          <span class="fashion-tag">Cotton Combed 24s</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= OUR PARTNERS ================= -->
+
+<section class="partners-section reveal">
+
+    <div class="partners-header">
+    <span class="partners-eyebrow">
+        TRUSTED BY
+    </span>
+    <h2>Our Partners</h2>
+    <p>
+        Dipercaya oleh banyak Brand Clothing, Distro, UMKM dan Perusahaan di Indonesia.
+    </p>
+</div>
+    <div class="partners-slider">
+        <div class="partners-track">
+            <!-- Logo -->
+            <div class="partner-item">
+                <img src="Image/Partners/Bloods.png">
+            </div>
+            <div class="partner-item">
+                <img src="Image/Partners/Dobujack.png">
+            </div>
+            <div class="partner-item">
+                <img src="Image/Partners/Maternal.png">
+            </div>
+            <div class="partner-item">
+                <img src="Image/Partners/SSST.png">
+            </div>
+            <div class="partner-item">
+                <img src="Image/Partners/Silverside.png">
+            </div>
+            <div class="partner-item">
+                <img src="Image/Partners/Geoffmax.png">
+            </div>
+            <div class="partner-item">
+                <img src="Image/Partners/Vearst.png">
+            </div>
+            <div class="partner-item">
+                <img src="Image/Partners/Benid Son.png">
+            </div>
+            <!-- duplicate supaya looping mulus -->
+            <div class="partner-item">
+                <img src="Image/Partners/Bloods.png">
+            </div>
+            <div class="partner-item">
+                <img src="Image/Partners/Dobujack.png">
+            </div>
+            <div class="partner-item">
+                <img src="Image/Partners/Maternal.png">
+            </div>
+            <div class="partner-item">
+                <img src="Image/Partners/SSST.png">
+            </div>
+            <div class="partner-item">
+                <img src="Image/Partners/Silverside.png">
+            </div>
+            <div class="partner-item">
+                <img src="Image/Partners/Geoffmax.png">
+            </div>
+            <div class="partner-item">
+                <img src="Image/Partners/Vearst.png">
+            </div>
+            <div class="partner-item">
+                <img src="Image/Partners/Benid Son.png">
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════ ARTIKEL / INFORMASI BAHAN ═══════════════════ -->
+<section class="section-artikel reveal" id="artikel">
+  <div class="section-header">
+    <div>
+      <span class="section-eyebrow gold">Info & Edukasi</span>
+      <h2 class="section-title">Informasi Bahan Kaos &amp; Kain</h2>
+      <p class="section-desc">Panduan, tips, dan artikel terbaru seputar bahan kaos &amp; kain untuk brand kamu.</p>
+    </div>
+  </div>
+
+  <div class="artikel-grid" id="artikelGrid"></div>
+
+  <div class="artikel-footer-cta">
+    <a href="https://fabriku.com/blog" target="_blank" rel="noopener" class="btn-artikel-all">
+      Lihat Semua Artikel
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ═══════════════════ CTA ═══════════════════ -->
+<section class="section-cta reveal">
+  <div class="cta-box">
+    <div class="cta-circle c1"></div><div class="cta-circle c2"></div>
+    <div class="cta-content">
+      <h2>Mau Langsung Pesan?</h2>
+      <p>Sebagai member, kamu bisa order lebih dulu dan dapat harga spesial. Langsung chat tim kami untuk pesan kain.</p>
+      <div class="cta-actions">
+        <a href="https://api.whatsapp.com/send/?phone=6281111116110" target="_blank" class="btn btn-gold">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          Hubungi via WhatsApp
+        </a>
+        <a href="https://fabriku.com/catalog" target="_blank" class="btn btn-ghost">Lihat Katalog Lengkap</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="footer">
+  <p>&copy; 2026 Fabriku — Khusus pelanggan member. Harga &amp; stok bisa berubah kapan saja.</p>
+</footer>
+
+<!-- ═══════════════════ MOBILE BOTTOM NAV ═══════════════════ -->
+<div class="bottom-nav" id="bottomNav">
+  <div class="bottom-nav-inner">
+    <a href="#new" class="bottom-nav-item" onclick="scrollToSection(event,'new')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+      <span>Baru</span>
+    </a>
+    <a href="#stock" class="bottom-nav-item active" onclick="scrollToSection(event,'stock')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+      <span>Stok</span>
+    </a>
+    <a href="#best" class="bottom-nav-item" onclick="scrollToSection(event,'best')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <span>Terlaris</span>
+    </a>
+    <a href="https://api.whatsapp.com/send/?phone=6281111116110" class="bottom-nav-item" target="_blank">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      <span>Chat</span>
+    </a>
+  </div>
+</div>
+
+<script>
+function scrollToSection(e, id) {
+  e.preventDefault();
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.querySelectorAll('.bottom-nav-item').forEach(b => b.classList.remove('active'));
+  e.currentTarget.classList.add('active');
+}
+
+// Active section detection for bottom nav
+const sections = ['new', 'stock', 'best'];
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY + 200;
+  let current = '';
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.offsetTop <= scrollY) current = id;
+  });
+  document.querySelectorAll('.bottom-nav-item').forEach(b => {
+    const href = b.getAttribute('href');
+    b.classList.toggle('active', href === '#' + current);
+  });
+});
+
+// ═══════════════════ SCROLL REVEAL ═══════════════════
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ═══════════════════ STOCK DATA ═══════════════════
+var stockProducts = [
+  { name: "Cotton Combed", stock: 12480, maxStock: 15000, status: "high", statusLabel: "Stok Aman", varian: ["20s","24s","28s","30s","40s"], image: "Image/cover homepage utama-03.png" },
+  { name: "CVC", stock: 6200, maxStock: 10000, status: "medium", statusLabel: "Stok Sedang", varian: ["20s","24s","30s"], image: "Image/cover homepage utama-01.png" },
+  { name: "Cotton Special", stock: 8750, maxStock: 12000, status: "high", statusLabel: "Stok Aman", varian: ["Versa Heavy","Elastech","24s Washed","Printing","Supreme"], image: "Image/cover homepage utama-04.png" },
+  { name: "Bamboo Cotton", stock: 4320, maxStock: 8000, status: "medium", statusLabel: "Stok Sedang", varian: ["30s"], image: "Image/cover homepage utama-03.png" },
+  { name: "Cotton Fleece", stock: 3400, maxStock: 6000, status: "medium", statusLabel: "Stok Sedang", varian: ["Cotton","TC / CVC"], image: "Image/cover homepage utama-06.png" },
+  { name: "Knitease Danball", stock: 1850, maxStock: 5000, status: "low", statusLabel: "Stok Terbatas", varian: ["M-TIIS Flexxair"], image: "Image/cover homepage utama-02.png" },
+];
+
+function renderStockCards() {
+  var grid = document.getElementById('stockGrid');
+  grid.innerHTML = stockProducts.map(function(p) {
+    var pct = Math.round((p.stock / p.maxStock) * 100);
+    var vars = p.varian.map(function(v) { return '<span class="stock-variant-tag">' + v + '</span>'; }).join('');
+    return '<div class="stock-card">' +
+      '<div class="stock-card-image">' +
+        '<img src="' + p.image + '" alt="' + p.name + '">' +
+        '<span class="stock-status ' + p.status + '">' + p.statusLabel + '</span>' +
+      '</div>' +
+      '<div class="stock-card-content">' +
+        '<div class="stock-card-header">' +
+          '<span class="stock-card-name">' + p.name + '</span>' +
+        '</div>' +
+        '<div class="stock-card-amount">' +
+          '<span class="stock-card-number">' + p.stock.toLocaleString('id-ID') + '</span>' +
+          '<span class="stock-card-unit">Kg</span>' +
+        '</div>' +
+        '<div class="stock-card-bar"><div class="stock-card-bar-fill ' + p.status + '" style="width:' + pct + '%"></div></div>' +
+        '<div class="stock-card-variants">' + vars + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+// ═══════════════════ ANIMATED COUNTERS ═══════════════════
+function animateCounter(el, target, duration) {
+  duration = duration || 1200;
+  var start = performance.now();
+  function step(now) {
+    var progress = Math.min((now - start) / duration, 1);
+    var eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(eased * target).toLocaleString('id-ID');
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+function initCounters() {
+  var totalStock = stockProducts.reduce(function(a, b) { return a + b.stock; }, 0);
+  var totalKategori = stockProducts.length;
+  var totalVarian = stockProducts.reduce(function(a, b) { return a + b.varian.length; }, 0);
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        animateCounter(document.getElementById('totalStockNum'), totalStock);
+        animateCounter(document.getElementById('totalKategori'), totalKategori);
+        animateCounter(document.getElementById('totalVarian'), totalVarian);
+        obs.disconnect();
+      }
+    });
+  }, { threshold: 0.2 });
+  obs.observe(document.querySelector('.stock-summary'));
+}
+
+function updateSyncTime() {
+  var now = new Date();
+  var opts = { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+  document.getElementById('syncTime').textContent = 'Sync terakhir: ' + now.toLocaleString('id-ID', opts);
+}
+
+// Smooth nav links
+document.querySelectorAll('.nav-link[href^="#"]').forEach(function(link) {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    var target = document.querySelector(this.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('.nav-link').forEach(function(l) { l.classList.remove('active'); });
+    this.classList.add('active');
+    closeMobileMenu();
+  });
+});
+
+// ═══════════════════ ARTIKEL / BLOG ═══════════════════
+// Data manual — update array ini untuk mengganti artikel yang tampil di homepage.
+// Ambil 4 artikel terbaru dari https://fabriku.com/blog secara manual.
+var artikelData = [
+  {
+    title: "Kenapa Kaos Warna Hitam Populer? Simak 7 Alasan di Baliknya",
+    url: "https://fabriku.com/blog/kenapa-kaos-warna-hitam-populer",
+    image: "https://fabriku.com/storage/uploads/YbXEnM6ZD0iV4FiGdORGhojPyW7syHBXrFPKEGLS.png",
+    date: "15 Jul 2025",
+    category: "Umum"
+  },
+  {
+    title: "CVC Lacoste Dusty Rose: Bahan Premium untuk Fashion Elegan",
+    url: "https://fabriku.com/blog/kain-cvc-lacoste-fabric-dusty-rose",
+    image: "https://fabriku.com/storage/uploads/ERiLmr9JbzzAVCGkYSZuUgWV5KFiqrBv5NhFMKNK.png",
+    date: "13 Jul 2025",
+    category: "Umum"
+  },
+  {
+    title: "Kenali Apa itu Bahan Oxford: Pengertian, Kelebihan, Kekurangan, dan Kegunaannya",
+    url: "https://fabriku.com/blog/apa-itu-bahan-oxford",
+    image: "https://fabriku.com/storage/uploads/WIPM27qqY4vMxnrWIK6B7MdqfolhRww4vyugkJIV.webp",
+    date: "08 Jul 2025",
+    category: "Umum"
+  },
+  {
+    title: "Bahan Katun Mikro: Kenapa Banyak Brand Memilih Kain Ini?",
+    url: "https://fabriku.com/blog/bahan-katun-mikro-kenapa-banyak-brand-memilih-kain-ini",
+    image: "https://fabriku.com/storage/uploads/aJ8SjiFHqTAXrjq6KLMibBimttfo6lkkTa9tk3E4.png",
+    date: "30 Jun 2025",
+    category: "Bahan"
+  }
+];
+
+function renderArtikelCards() {
+  var grid = document.getElementById('artikelGrid');
+  grid.innerHTML = artikelData.map(function(a) {
+    var img = a.image
+      ? '<img src="' + a.image + '" alt="' + a.title.replace(/"/g,'&quot;') + '" loading="lazy" onerror="this.style.display=\'none\'">'
+      : '';
+    var cat = a.category
+      ? '<span class="artikel-category">' + a.category + '</span>'
+      : '';
+    var date = a.date
+      ? '<span class="artikel-date">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' +
+          a.date +
+        '</span>'
+      : '';
+    return '<a class="artikel-card" href="' + a.url + '" target="_blank" rel="noopener">' +
+      '<div class="artikel-card-img">' + cat + img + '</div>' +
+      '<div class="artikel-card-body">' +
+        date +
+        '<h3>' + a.title + '</h3>' +
+        '<span class="artikel-cta">Baca Selengkapnya ' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>' +
+        '</span>' +
+      '</div>' +
+    '</a>';
+  }).join('');
+}
+
+// Init
+renderStockCards();
+initCounters();
+updateSyncTime();
+renderArtikelCards();
+</script>
+</body>
+</html>
