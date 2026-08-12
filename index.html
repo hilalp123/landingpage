@@ -615,193 +615,6 @@ button { font-family: inherit; cursor: pointer; }
   padding: clamp(40px, 7vw, 72px) clamp(1rem, 4vw, 2rem);
   max-width: 1120px; margin: 0 auto;
 }
-.best-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-}
-.best-card {
-  background: var(--white);
-  border-radius: 14px; overflow: hidden;
-  border: 1px solid var(--gray-200);
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-}
-.best-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
-.best-card-thumb {
-  position: relative;
-  flex: 0 0 130px;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  background: var(--teal-900);
-}
-.best-card-thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
-.best-rank {
-  position: absolute; top: 10px; left: 10px;
-  width: 30px; height: 30px; border-radius: var(--radius-sm);
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 900; font-size: 12px; color: var(--white);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-}
-.best-rank.r1 { background: var(--gold); }
-.best-rank.r2 { background: #a8a8a8; }
-.best-rank.r3 { background: #b87333; }
-.best-rank.r4 { background: var(--teal-700); }
-.best-card-body {
-  flex: 1;
-  padding: 14px 16px;
-  display: flex; flex-direction: column;
-  justify-content: center; gap: 8px;
-  min-width: 0;
-}
-.best-card-body h3 {
-  font-size: clamp(14px, 1.8vw, 16px);
-  font-weight: 700; color: var(--teal-900);
-  line-height: 1.3; letter-spacing: -0.01em;
-}
-.best-card-stats { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.best-sold-label { font-size: 10px; color: var(--gray-400); font-weight: 500; margin-bottom: 2px; }
-.best-sold-value { font-size: clamp(16px, 2vw, 19px); font-weight: 800; color: var(--teal-900); letter-spacing: -0.02em; }
-.best-sold-unit { font-size: 10px; font-weight: 500; color: var(--gray-400); }
-.best-trend {
-  background: var(--teal-50); color: var(--teal-700);
-  font-size: 11px; font-weight: 700;
-  padding: 3px 7px; border-radius: var(--radius-sm);
-  display: flex; align-items: center; gap: 3px;
-  flex-shrink: 0;
-}
-.best-jenis-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.best-jenis-label { font-size: 10px; color: var(--gray-400); }
-.best-jenis-tag {
-  background: var(--teal-700); color: var(--white);
-  font-size: 10px; font-weight: 600;
-  padding: 3px 9px; border-radius: 5px;
-}
-
-/* ═══════════════════ BEST SELLERS — Podium (#1) + Leaderboard (#2–4) ═══════════════════ */
-.bs-layout {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 20px;
-  align-items: stretch;
-}
-
-/* ── Hero: the #1 seller ── */
-.bs-hero {
-  position: relative;
-  display: flex; flex-direction: column;
-  background: var(--white);
-  border: 1px solid var(--gray-200);
-  border-radius: 18px;
-  overflow: hidden;
-  color: inherit;
-  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
-}
-.bs-hero:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: var(--teal-200); }
-.bs-hero-media {
-  position: relative;
-  aspect-ratio: 16 / 11;
-  overflow: hidden;
-  background: linear-gradient(135deg, var(--teal-800), var(--teal-900));
-}
-.bs-hero-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
-.bs-hero:hover .bs-hero-media img { transform: scale(1.05); }
-.bs-hero-media::after {
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 42%, rgba(12,74,74,0.82) 100%);
-}
-.bs-crown {
-  position: absolute; top: 14px; left: 14px; z-index: 2;
-  display: inline-flex; align-items: center; gap: 7px;
-  background: linear-gradient(135deg, #e8ce8f, var(--gold));
-  color: #3a2e12;
-  font-size: 11px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
-  padding: 6px 12px; border-radius: 999px;
-  box-shadow: 0 6px 18px rgba(200,169,110,.45);
-}
-.bs-crown svg { width: 14px; height: 14px; }
-.bs-hero-overlay {
-  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
-  padding: 18px; color: var(--white);
-}
-.bs-hero-overlay h3 {
-  font-size: clamp(18px, 2.4vw, 23px);
-  font-weight: 800; letter-spacing: -.01em; line-height: 1.2;
-  margin-bottom: 8px;
-}
-.bs-hero-sold { display: flex; align-items: baseline; gap: 7px; }
-.bs-hero-sold .lbl { font-size: 11px; color: rgba(255,255,255,.65); font-weight: 500; }
-.bs-hero-sold .num { font-size: clamp(24px, 3.6vw, 32px); font-weight: 900; letter-spacing: -.02em; }
-.bs-hero-sold .unit { font-size: 12px; font-weight: 600; color: rgba(255,255,255,.7); }
-.bs-hero-foot {
-  display: flex; align-items: center; justify-content: space-between; gap: 10px;
-  padding: 14px 18px; border-top: 1px solid var(--gray-200);
-}
-.bs-fav-tag {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 12px; font-weight: 600; color: var(--teal-800);
-  background: var(--teal-50); border: 1px solid var(--teal-200);
-  padding: 5px 11px; border-radius: 999px;
-}
-.bs-fav-tag .k { color: var(--gray-400); font-weight: 500; }
-.bs-hero-cta {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 13px; font-weight: 700; color: var(--teal-700); flex-shrink: 0;
-}
-.bs-hero-cta svg { width: 15px; height: 15px; transition: transform .25s; }
-.bs-hero:hover .bs-hero-cta svg { transform: translateX(3px); }
-
-/* ── Leaderboard rows: #2–4 ── */
-.bs-list { display: flex; flex-direction: column; gap: 12px; }
-.bs-row {
-  display: grid;
-  grid-template-columns: 26px 60px 1fr auto;
-  align-items: center;
-  gap: 14px;
-  background: var(--white);
-  border: 1px solid var(--gray-200);
-  border-radius: 14px;
-  padding: 12px 16px 12px 12px;
-  color: inherit;
-  flex: 1;
-  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-}
-.bs-row:hover { transform: translateX(3px); box-shadow: var(--shadow-hover); border-color: var(--teal-200); }
-.bs-rank {
-  font-size: 22px; font-weight: 900; letter-spacing: -.03em;
-  color: var(--gray-300); text-align: center;
-  font-variant-numeric: tabular-nums;
-}
-.bs-row.silver .bs-rank { color: #9ca3af; }
-.bs-row.bronze .bs-rank { color: #b87333; }
-.bs-row.teal   .bs-rank { color: var(--teal-500); }
-.bs-thumb {
-  width: 60px; height: 60px; border-radius: 10px; overflow: hidden;
-  background: var(--teal-900);
-}
-.bs-thumb img { width: 100%; height: 100%; object-fit: cover; }
-.bs-row-main { display: flex; flex-direction: column; min-width: 0; }
-.bs-row-name {
-  font-size: 14px; font-weight: 700; color: var(--teal-900);
-  line-height: 1.25; letter-spacing: -.01em;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  margin-bottom: 6px;
-}
-.bs-bar { display: block; height: 6px; background: var(--gray-100); border-radius: 999px; overflow: hidden; }
-.bs-bar-fill { display: block; height: 100%; border-radius: 999px; }
-.bs-row.silver .bs-bar-fill { background: linear-gradient(90deg,#c9c9c9,#9ca3af); }
-.bs-row.bronze .bs-bar-fill { background: linear-gradient(90deg,#d68f52,#b87333); }
-.bs-row.teal   .bs-bar-fill { background: linear-gradient(90deg,var(--teal-400),var(--teal-600)); }
-.bs-row-fav { font-size: 11px; color: var(--gray-500); margin-top: 6px; }
-.bs-row-sold { text-align: right; }
-.bs-row-sold .lbl {
-  display: block; font-size: 9px; text-transform: uppercase; letter-spacing: .08em;
-  color: var(--gray-400); font-weight: 600; margin-bottom: 2px;
-}
-.bs-row-sold .num { font-size: 15px; font-weight: 800; color: var(--teal-900); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
-.bs-row-sold .unit { font-size: 10px; color: var(--gray-400); font-weight: 500; }
 
 /* ── Balanced grid: every best-seller card is the same size ── */
 .best2-grid {
@@ -1396,7 +1209,6 @@ button { font-family: inherit; cursor: pointer; }
 /* ═══════════════════ RESPONSIVE — TABLET ═══════════════════ */
 @media (max-width: 1024px) {
   .product-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .best-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
   .best2-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .stock-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; }
   .artikel-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
@@ -1429,13 +1241,6 @@ button { font-family: inherit; cursor: pointer; }
   .product-cta:hover { background: #0a2329; transform: none; box-shadow: none; }
   .stock-summary { grid-template-columns: repeat(3, 1fr); gap: 8px; }
   .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .stock-card-body { padding: 12px 12px 0; gap: 8px; }
-  .stock-card-name { font-size: 13.5px; }
-  .stock-card-number { font-size: 19px; }
-  .stock-card-bar { margin: 0 12px; }
-  .stock-variant-toggle { padding: 10px 12px; font-size: 10px; margin-top: 10px; }
-  .stock-variants-inner { padding: 10px 10px 12px; }
-  .stock-status, .stock-variant-badge { font-size: 9.5px; padding: 3px 8px; }
 
   /* Search + filters mobile */
   .stock-search input { padding: 12px 40px 12px 42px; font-size: 13.5px; }
@@ -1517,23 +1322,6 @@ button { font-family: inherit; cursor: pointer; }
   .stock-stat-card { padding: 10px 12px; }
   .stock-stat-value { font-size: 20px; }
   .stock-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .stock-card-body { padding: 10px 10px 0; gap: 6px; }
-  .stock-card-name { font-size: 12.5px; }
-  .stock-card-number { font-size: 17px; }
-  .stock-card-unit { font-size: 10px; }
-  .stock-card-pct { font-size: 10px; }
-  .stock-card-bar { margin: 0 10px; height: 3px; }
-  .stock-variant-toggle { padding: 9px 10px; font-size: 9.5px; margin-top: 8px; letter-spacing: 0.04em; }
-  .stock-variant-count { font-size: 10px; }
-  .stock-variant-row { padding: 7px 9px; gap: 6px; }
-  .stock-variant-name { font-size: 11px; }
-  .stock-variant-qty { font-size: 11px; }
-  .stock-variant-color-chip { font-size: 9.5px; padding: 3px 8px 3px 3px; }
-  .stock-variant-color-chip .swatch { width: 12px; height: 12px; }
-  .stock-status, .stock-variant-badge { font-size: 9px; padding: 3px 7px; top: 8px; }
-  .stock-status { left: 8px; }
-  .stock-variant-badge { right: 8px; }
-  .stock-variants-inner { padding: 8px 8px 10px; }
 
   /* Product card — small phones: keep the 2×2 specs + dark pill from the 768 rules, just tighten sizes */
   .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -1569,7 +1357,6 @@ button { font-family: inherit; cursor: pointer; }
 @media (max-width: 360px) {
   .artikel-card { flex: 0 0 86%; }
   .stock-grid { grid-template-columns: 1fr; }
-  .stock-card-number { font-size: 20px; }
 }
 
 /* ═══════════════════ MEMBER GREETING (personalized) ═══════════════════ */
@@ -2126,13 +1913,6 @@ button { font-family: inherit; cursor: pointer; }
 .member-gate-msg { min-height: 17px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.9); margin-top: 1px; }
 .member-gate.is-invalid .member-gate-msg,
 .member-gate.is-notfound .member-gate-msg { color: #ffd9d5; }
-.member-gate-demo { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 7px; margin-top: 4px; }
-.member-gate-demo-lbl { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
-.mg-chip {
-  font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 999px; cursor: pointer;
-  color: #fff; background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.22); transition: all .15s ease;
-}
-.mg-chip:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.42); }
 
 /* ── Reveal (membership details) ── */
 .member-reveal { display: flex; flex-direction: column; gap: clamp(16px, 2.4vw, 22px); }
@@ -2226,6 +2006,8 @@ button { font-family: inherit; cursor: pointer; }
         <h2 class="member-gate-title">Cek Poin &amp; Tier Kamu</h2>
         <p class="member-gate-sub">Masukkan nomor HP yang terdaftar untuk melihat status member kamu.</p>
         <form class="member-gate-form" id="memberGateForm" novalidate>
+          <input type="text" name="website" id="memberGateHoneypot" tabindex="-1" autocomplete="off"
+                 style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" aria-hidden="true">
           <div class="member-gate-field">
             <svg class="member-gate-field-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.6a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.5-1.1a2 2 0 012.1-.5c.8.3 1.7.5 2.6.6a2 2 0 011.7 2z"/></svg>
             <input type="tel" id="memberPhoneInput" inputmode="numeric" autocomplete="tel" maxlength="16"
@@ -2237,14 +2019,6 @@ button { font-family: inherit; cursor: pointer; }
           </button>
         </form>
         <p class="member-gate-msg" id="memberGateMsg" role="status" aria-live="polite"></p>
-        <div class="member-gate-demo">
-          <span class="member-gate-demo-lbl">Nomor demo:</span>
-          <button type="button" class="mg-chip" data-phone="081311111111">Bronze</button>
-          <button type="button" class="mg-chip" data-phone="081322222222">Silver</button>
-          <button type="button" class="mg-chip" data-phone="081333333333">Gold</button>
-          <button type="button" class="mg-chip" data-phone="081344444444">Platinum</button>
-          <button type="button" class="mg-chip" data-phone="081355555555">Diamond</button>
-        </div>
       </div>
 
       <!-- ══ MEMBERSHIP DETAILS (revealed after a valid number is checked) ══ -->
@@ -2286,12 +2060,12 @@ button { font-family: inherit; cursor: pointer; }
           <div class="member-stat-value"><span id="memberOrderKg">0</span> <small>KG</small></div>
         </div>
         <div class="member-stat">
-          <div class="member-stat-label">Total Hemat</div>
+          <div class="member-stat-label">Total Belanja Th. Ini</div>
           <div class="member-stat-value"><small>Rp</small> <span id="memberSaved">0</span></div>
         </div>
         <div class="member-stat">
-          <div class="member-stat-label">Member Sejak</div>
-          <div class="member-stat-value" id="memberSince">2023</div>
+          <div class="member-stat-label">Belanja Th. Lalu</div>
+          <div class="member-stat-value"><small>Rp</small> <span id="memberSince">0</span></div>
         </div>
       </div>
 
@@ -3526,6 +3300,41 @@ document.querySelectorAll('.nav-link[href^="#"]').forEach(function(link) {
   });
 });
 
+// ═══════════════════ ANIMATED COUNTERS ═══════════════════
+function animateCounter(el, target, duration) {
+  duration = duration || 1200;
+  var start = performance.now();
+  function step(now) {
+    var progress = Math.min((now - start) / duration, 1);
+    var eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(eased * target).toLocaleString('id-ID');
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+function initCounters() {
+  var totalStock = stockProducts.reduce(function(a, b) { return a + b.stock; }, 0);
+  var totalKategori = stockProducts.length;
+  var totalVarian = stockProducts.reduce(function(a, b) { return a + b.varian.length; }, 0);
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        animateCounter(document.getElementById('totalStockNum'), totalStock);
+        animateCounter(document.getElementById('totalKategori'), totalKategori);
+        animateCounter(document.getElementById('totalVarian'), totalVarian);
+        obs.disconnect();
+      }
+    });
+  }, { threshold: 0.2 });
+  obs.observe(document.querySelector('.stock-summary'));
+}
+
+function updateSyncTime() {
+  var now = new Date();
+  var opts = { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+  document.getElementById('syncTime').textContent = 'Sync terakhir: ' + now.toLocaleString('id-ID', opts);
+}
+
 // ═══════════════════ ARTIKEL / BLOG ═══════════════════
 // Data manual — update array ini untuk mengganti artikel yang tampil di homepage.
 // Ambil 4 artikel terbaru dari https://fabriku.com/blog secara manual.
@@ -3664,10 +3473,10 @@ var memberData = {
   logoUrl: "",               // Fabriku logo for the card. Empty = use the embedded logo.
                              //   Set a path/URL (e.g. "Image/logo.png") to override it.
   tier: "Gold",              // one of: Bronze, Silver, Gold, Platinum, Diamond
-  points: 6800,              // current loyalty points
-  memberSince: "2023",       // year they joined
-  totalOrderKg: 1240,        // total kain yang dipesan (dalam KG)
-  totalSaved: 1250000,       // total Rp saved as a member
+  points: 20000,             // current loyalty points (dihitung dari total belanja tahun ini)
+  lastYearSpend: 2400000000, // total belanja (Rp) tahun lalu — dasar penentuan tier aktif saat ini
+  totalOrderKg: 1240,        // total kain yang dipesan tahun ini (dalam KG)
+  totalSaved: 3000000000,    // total belanja (Rp) tahun ini
   expiryDate: "",            // status expiry, e.g. "31 Des 2026". Leave "" to auto-use
                              //   31 Des of the current year (aligns with New Year renewal).
   voucher: {
@@ -3675,11 +3484,16 @@ var memberData = {
     desc: "Min. belanja Rp 500.000 · berlaku untuk semua kain",
     code: "MEMBERHEMAT15",
     expiry: "31 Agu 2026"
-  }
+  },
+  // Diisi otomatis dari hasil lookup Supabase (RPC get_my_loyalty). Saat null,
+  // progress bar & proyeksi tahun depan pakai kalkulasi lokal (mode demo/preview).
+  real: null // { nextTier, amountToNext, progressPercent, projectedTier }
 };
 
 // Points needed to REACH each tier. Progress bar fills toward the next one up.
-var tierThresholds = { Bronze: 0, Silver: 1000, Gold: 5000, Platinum: 15000, Diamond: 30000 };
+// Disesuaikan dengan loyalty_settings di Supabase: Silver Rp500jt, Gold Rp2M,
+// Platinum Rp5M, Diamond Rp10M — dikonversi ke poin (1 poin = Rp150.000 belanja).
+var tierThresholds = { Bronze: 0, Silver: 3333, Gold: 13333, Platinum: 33333, Diamond: 66667 };
 var tierOrder = ["Bronze", "Silver", "Gold", "Platinum", "Diamond"];
 // Small badge-pill palette class
 var tierClass     = { Bronze: "tier-bronze", Silver: "tier-silver", Gold: "tier-gold", Platinum: "tier-platinum", Diamond: "tier-diamond" };
@@ -3687,26 +3501,38 @@ var tierClass     = { Bronze: "tier-bronze", Silver: "tier-silver", Gold: "tier-
 var tierCardClass = { Bronze: "tier-card-bronze", Silver: "tier-card-silver", Gold: "tier-card-gold", Platinum: "tier-card-platinum", Diamond: "tier-card-diamond" };
 // ▲▲▲ END EDITABLE CONFIG ▲▲▲
 
-// ── Sample member directory (demo). Keys are normalised phone numbers (digits, leading 08). ──
-// This stands in for a real lookup/API. Add or edit entries freely.
+// ── Sample member directory — HANYA untuk tombol preview tier di admin/demo. ──
+// Pencarian member yang SEBENARNYA (form di bawah) sudah pakai Supabase Edge
+// Function `member-lookup`, bukan object ini. Aman dihapus bersama initTierPreview()
+// dan blok .tier-preview di HTML kalau sudah tidak dibutuhkan.
 var memberDirectory = {
-  "081311111111": { name:"Rina Wijaya",  phone:"081311111111", tier:"Bronze",   points:420,   memberSince:"2025", totalOrderKg:85,   totalSaved:120000,  voucher:{ title:"Diskon 5%",  desc:"Min. belanja Rp 250.000 · khusus member",        code:"WELCOME5",     expiry:"31 Agu 2026" } },
-  "081322222222": { name:"Andi Pratama", phone:"081322222222", tier:"Silver",   points:2600,  memberSince:"2024", totalOrderKg:430,  totalSaved:410000,  voucher:{ title:"Diskon 10%", desc:"Min. belanja Rp 400.000 · semua kain",           code:"SILVER10",     expiry:"31 Agu 2026" } },
-  "081333333333": { name:"Budi Santoso", phone:"081333333333", tier:"Gold",     points:6800,  memberSince:"2023", totalOrderKg:1240, totalSaved:1250000, voucher:{ title:"Diskon 15%", desc:"Min. belanja Rp 500.000 · berlaku untuk semua kain", code:"MEMBERHEMAT15", expiry:"31 Agu 2026" } },
-  "081344444444": { name:"Dewi Lestari", phone:"081344444444", tier:"Platinum", points:18500, memberSince:"2021", totalOrderKg:3200, totalSaved:3850000, voucher:{ title:"Diskon 20%", desc:"Min. belanja Rp 750.000 · + gratis ongkir",        code:"PLATINUM20",   expiry:"31 Agu 2026" } },
-  "081355555555": { name:"Siti Rahayu",  phone:"081355555555", tier:"Diamond",  points:34000, memberSince:"2019", totalOrderKg:6100, totalSaved:7400000, voucher:{ title:"Diskon 25%", desc:"Tanpa min. belanja · + prioritas restok",          code:"DIAMOND25",    expiry:"31 Agu 2026" } }
+  "081311111111": { name:"Rina Wijaya",  phone:"081311111111", tier:"Bronze",   points:1200,  lastYearSpend:150000000,   totalOrderKg:85,   totalSaved:180000000,   voucher:{ title:"Diskon 5%",  desc:"Min. belanja Rp 250.000 · khusus member",        code:"WELCOME5",     expiry:"31 Agu 2026" } },
+  "081322222222": { name:"Andi Pratama", phone:"081322222222", tier:"Silver",   points:6000,  lastYearSpend:620000000,   totalOrderKg:430,  totalSaved:900000000,   voucher:{ title:"Diskon 10%", desc:"Min. belanja Rp 400.000 · semua kain",           code:"SILVER10",     expiry:"31 Agu 2026" } },
+  "081333333333": { name:"Budi Santoso", phone:"081333333333", tier:"Gold",     points:20000, lastYearSpend:2400000000,  totalOrderKg:1240, totalSaved:3000000000,  voucher:{ title:"Diskon 15%", desc:"Min. belanja Rp 500.000 · berlaku untuk semua kain", code:"MEMBERHEMAT15", expiry:"31 Agu 2026" } },
+  "081344444444": { name:"Dewi Lestari", phone:"081344444444", tier:"Platinum", points:45000, lastYearSpend:5800000000,  totalOrderKg:3200, totalSaved:6750000000,  voucher:{ title:"Diskon 20%", desc:"Min. belanja Rp 750.000 · + gratis ongkir",        code:"PLATINUM20",   expiry:"31 Agu 2026" } },
+  "081355555555": { name:"Siti Rahayu",  phone:"081355555555", tier:"Diamond",  points:90000, lastYearSpend:12000000000, totalOrderKg:6100, totalSaved:13500000000, voucher:{ title:"Diskon 25%", desc:"Tanpa min. belanja · + prioritas restok",          code:"DIAMOND25",    expiry:"31 Agu 2026" } }
 };
 var tierSamplePhone = { Bronze:"081311111111", Silver:"081322222222", Gold:"081333333333", Platinum:"081344444444", Diamond:"081355555555" };
+
+// Voucher per tier — dipakai untuk hasil lookup Supabase (yang tidak mengembalikan
+// voucher, hanya data poin/tier). Sesuaikan sesuai promo yang berlaku.
+var voucherByTier = {
+  Bronze:   { title:"Diskon 5%",  desc:"Min. belanja Rp 250.000 · khusus member",            code:"WELCOME5",      expiry:"31 Des 2026" },
+  Silver:   { title:"Diskon 10%", desc:"Min. belanja Rp 400.000 · semua kain",                code:"SILVER10",      expiry:"31 Des 2026" },
+  Gold:     { title:"Diskon 15%", desc:"Min. belanja Rp 500.000 · berlaku untuk semua kain",  code:"MEMBERHEMAT15", expiry:"31 Des 2026" },
+  Platinum: { title:"Diskon 20%", desc:"Min. belanja Rp 750.000 · + gratis ongkir",           code:"PLATINUM20",    expiry:"31 Des 2026" },
+  Diamond:  { title:"Diskon 25%", desc:"Tanpa min. belanja · + prioritas restok",             code:"DIAMOND25",     expiry:"31 Des 2026" }
+};
+
+// ── Konfigurasi Supabase (project egarfabrikudatanalyst) ──
+var SUPABASE_FN_URL = "https://rdwnrmxheknfjmmdwlvc.supabase.co/functions/v1/member-lookup";
+var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJkd25ybXhoZWtuZmptbWR3bHZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ1OTE4NjAsImV4cCI6MjEwMDE2Nzg2MH0.9Vnn1c79af0JypfRMnd-HjTj0jM-skLXUXHJWMmC1Jg";
 
 function greetingForHour(h) {
   if (h >= 4 && h < 11)  return "Selamat pagi";
   if (h >= 11 && h < 15) return "Selamat siang";
   if (h >= 15 && h < 18) return "Selamat sore";
   return "Selamat malam";
-}
-function firstNameFrom(name) {
-  var p = (name || "").trim().split(/\s+/).filter(Boolean);
-  return p.length ? p[0] : "Member";
 }
 // Last 4 digits of a phone number -> used as the short Member ID
 function last4(phone) {
@@ -3729,8 +3555,8 @@ function renderMemberGreeting() {
 
   // Identity + greeting
   document.getElementById('memberGreetTime').textContent = greetingForHour(new Date().getHours());
-  document.getElementById('memberName').textContent = firstNameFrom(d.name);
-  document.getElementById('memberSince').textContent = d.memberSince || "—";
+  document.getElementById('memberName').textContent = d.name || "Member";
+  document.getElementById('memberSince').textContent = (d.lastYearSpend || 0).toLocaleString('id-ID');
   document.getElementById('memberIdShort').textContent = "#" + last4(d.phone);
   document.getElementById('memberExpiry').textContent = d.expiryDate || ("31 Des " + new Date().getFullYear());
 
@@ -3821,7 +3647,16 @@ function updateMemberTierUI(animatePoints) {
   // Progress toward the next tier
   var fill = document.getElementById('memberProgressFill');
   var text = document.getElementById('memberProgressText');
-  if (idx >= tierOrder.length - 1) {
+  if (d.real) {
+    // Data asli dari Supabase: pakai progress & target yang sudah dihitung backend.
+    var progressed = !d.real.nextTier ? 1 : Math.min(Math.max((d.real.progressPercent || 0) / 100, 0), 1);
+    setTimeout(function() { fill.style.width = (progressed * 100).toFixed(1) + '%'; }, 200);
+    if (!d.real.nextTier) {
+      text.innerHTML = 'Kamu sudah di tier tertinggi, <b>' + tier + '</b>. Terima kasih! 🎉';
+    } else {
+      text.innerHTML = '<b>Rp' + (d.real.amountToNext || 0).toLocaleString('id-ID') + '</b> lagi belanja tahun ini menuju <b>' + d.real.nextTier + '</b>.';
+    }
+  } else if (idx >= tierOrder.length - 1) {
     fill.style.width = '100%';
     text.innerHTML = 'Kamu sudah di tier tertinggi, <b>' + tier + '</b>. Terima kasih! 🎉';
   } else {
@@ -3829,9 +3664,9 @@ function updateMemberTierUI(animatePoints) {
     var base = tierThresholds[tier];
     var need = tierThresholds[nextTier];
     var span = Math.max(need - base, 1);
-    var progressed = Math.min(Math.max((d.points - base) / span, 0), 1);
+    var progressed2 = Math.min(Math.max((d.points - base) / span, 0), 1);
     var remaining = Math.max(need - d.points, 0);
-    setTimeout(function() { fill.style.width = (progressed * 100).toFixed(1) + '%'; }, 200);
+    setTimeout(function() { fill.style.width = (progressed2 * 100).toFixed(1) + '%'; }, 200);
     text.innerHTML = '<b>' + remaining.toLocaleString('id-ID') + ' poin</b> lagi menuju <b>' + nextTier + '</b>.';
   }
 
@@ -3842,7 +3677,6 @@ function updateMemberTierUI(animatePoints) {
 function updateNextYearStatus(currentTier) {
   var d = memberData;
   var nextYear = new Date().getFullYear() + 1;
-  var projected = tierForPoints(d.points || 0);
   var box = document.getElementById('memberNextYear');
   var headline = document.getElementById('memberNextYearHeadline');
   var sub = document.getElementById('memberNextYearSub');
@@ -3850,6 +3684,7 @@ function updateNextYearStatus(currentTier) {
   if (yEl) yEl.textContent = nextYear;
   if (!box) return;
 
+  var projected = d.real ? (d.real.projectedTier || currentTier) : tierForPoints(d.points || 0);
   var ci = tierOrder.indexOf(currentTier);
   var pi = tierOrder.indexOf(projected);
   box.classList.remove('is-up', 'is-hold', 'is-down');
@@ -3865,6 +3700,15 @@ function updateNextYearStatus(currentTier) {
     headline.innerHTML = 'Turun ke <span class="up">' + projected + '</span>';
   }
 
+  if (d.real) {
+    if (!d.real.nextTier) {
+      sub.innerHTML = 'Dengan belanja Rp' + (d.totalSaved || 0).toLocaleString('id-ID') + ' tahun ini, kamu sudah mengunci tier tertinggi untuk ' + nextYear + '.';
+    } else {
+      sub.innerHTML = 'Dari Rp' + (d.totalSaved || 0).toLocaleString('id-ID') + ' belanja tahun ini · <b>Rp' + (d.real.amountToNext || 0).toLocaleString('id-ID') + '</b> lagi untuk membuka <b>' + d.real.nextTier + '</b> di ' + nextYear + '.';
+    }
+    return;
+  }
+
   if (pi >= tierOrder.length - 1) {
     sub.innerHTML = 'Dengan ' + (d.points || 0).toLocaleString('id-ID') + ' poin, kamu sudah mengunci tier tertinggi untuk ' + nextYear + '.';
   } else {
@@ -3878,7 +3722,6 @@ function updateNextYearStatus(currentTier) {
 // Lets you see all five card finishes without editing code. To remove it later,
 // delete this function, the initTierPreview() call above, and the .tier-preview
 // block in the HTML. Representative points keep the projection coherent per tier.
-var tierPreviewPoints = { Bronze: 400, Silver: 2600, Gold: 6800, Platinum: 18000, Diamond: 34000 };
 function initTierPreview() {
   var wrap = document.getElementById('tierPreview');
   if (!wrap) return;
@@ -3908,6 +3751,7 @@ function animateMemberCounters() {
 }
 
 function showMemberReveal(record) {
+  memberData.real = null;                 // reset dulu — diisi lagi kalau record berasal dari lookup asli
   Object.assign(memberData, record);
   renderMemberGreeting();                 // refresh identity, voucher, tier visuals (bindings are guarded)
   var gate = document.getElementById('memberGate');
@@ -3939,28 +3783,79 @@ function initMemberGate() {
   var input = document.getElementById('memberPhoneInput');
   var gate = document.getElementById('memberGate');
   var msg = document.getElementById('memberGateMsg');
+  var honeypot = document.getElementById('memberGateHoneypot');
   if (!form || !input || !gate) return;
+
+  var pageLoadedAt = Date.now(); // dipakai untuk anti-bot elapsed_ms (backend menolak submit < 2.5 detik)
 
   function clearError() { gate.classList.remove('is-invalid', 'is-notfound'); if (msg) msg.textContent = ''; }
   function fail(cls, text) { gate.classList.remove('is-invalid', 'is-notfound'); gate.classList.add(cls); if (msg) msg.textContent = text; }
+
+  // Ubah hasil RPC get_my_loyalty (Supabase) jadi bentuk yang dipakai memberData/showMemberReveal.
+  function mapLookupRow(row, phoneDisplay) {
+    var tier = row.active_tier || 'Bronze';
+    return {
+      name: row.customer_name || 'Member',
+      phone: phoneDisplay,
+      tier: tier,
+      points: row.poin || 0,
+      lastYearSpend: row.active_tier_based_on_total || 0,
+      totalOrderKg: row.current_year_qty || 0,
+      totalSaved: row.current_year_total || 0,
+      voucher: row.voucher || voucherByTier[tier] || voucherByTier.Bronze, // fallback lokal kalau tabel voucher kosong
+      real: {
+        nextTier: row.next_tier || null,
+        amountToNext: row.amount_to_next_tier || 0,
+        progressPercent: row.progress_percent || 0,
+        projectedTier: row.projected_tier || tier
+      }
+    };
+  }
 
   function runCheck() {
     var norm = normalizePhone(input.value);
     if (!isValidPhoneFormat(norm)) { fail('is-invalid', 'Nomor HP belum valid. Contoh format: 08xxxxxxxxxx.'); input.focus(); return; }
     clearError(); gate.classList.add('is-loading');
-    setTimeout(function () {                          // brief delay so it reads like a lookup
-      gate.classList.remove('is-loading');
-      var rec = memberDirectory[norm];
-      if (rec) { showMemberReveal(rec); }
-      else { fail('is-notfound', 'Nomor ' + norm + ' belum terdaftar sebagai member. Coba nomor lain ya.'); }
-    }, 550);
+
+    fetch(SUPABASE_FN_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+        'apikey': SUPABASE_ANON_KEY
+      },
+      body: JSON.stringify({
+        phone: norm,
+        honeypot: honeypot ? honeypot.value : '',
+        elapsedMs: Date.now() - pageLoadedAt
+      })
+    })
+      .then(function (res) { return res.json().then(function (body) { return { ok: res.ok, status: res.status, body: body }; }); })
+      .then(function (result) {
+        gate.classList.remove('is-loading');
+        if (result.ok && result.body && result.body.data) {
+          var row = result.body.data;
+          if (row.status === 'ok') {
+            showMemberReveal(mapLookupRow(row, norm));
+          } else {
+            fail('is-notfound', 'Nomor ' + norm + ' belum terdaftar sebagai member. Coba nomor lain ya.');
+          }
+        } else if (result.status === 429) {
+          fail('is-notfound', 'Nomor ini sudah 10x cek hari ini. Coba lagi besok ya, mulai jam 00:00.');
+        } else if (result.status === 403) {
+          fail('is-notfound', 'Permintaan tidak dapat diproses saat ini. Coba lagi nanti.');
+        } else {
+          fail('is-notfound', 'Gagal mengambil data. Cek koneksi internet kamu dan coba lagi.');
+        }
+      })
+      .catch(function () {
+        gate.classList.remove('is-loading');
+        fail('is-notfound', 'Gagal terhubung ke server. Cek koneksi internet kamu dan coba lagi.');
+      });
   }
 
   form.addEventListener('submit', function (e) { e.preventDefault(); runCheck(); });
   input.addEventListener('input', clearError);
-  document.querySelectorAll('#memberGate .mg-chip').forEach(function (chip) {
-    chip.addEventListener('click', function () { input.value = chip.getAttribute('data-phone'); runCheck(); });
-  });
   var changeBtn = document.getElementById('memberChangeBtn');
   if (changeBtn) changeBtn.addEventListener('click', hideMemberReveal);
 }
