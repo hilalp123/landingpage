@@ -431,6 +431,37 @@ button { font-family: inherit; cursor: pointer; }
   color: var(--teal-800);
 }
 
+/* ── Category filter SLIDER (arrows + edge fades) ── */
+.stock-filters-wrap { position: relative; }
+.stock-filters { scroll-behavior: smooth; }
+.stock-filters-wrap::before,
+.stock-filters-wrap::after {
+  content: ""; position: absolute; top: 0; bottom: 0; width: 40px;
+  pointer-events: none; z-index: 2; opacity: 0; transition: opacity .2s ease;
+}
+.stock-filters-wrap::before { left: 0;  background: linear-gradient(90deg, var(--teal-900) 10%, transparent); }
+.stock-filters-wrap::after  { right: 0; background: linear-gradient(270deg, var(--teal-900) 10%, transparent); }
+.stock-filters-wrap.can-left::before  { opacity: 1; }
+.stock-filters-wrap.can-right::after  { opacity: 1; }
+.stock-filters-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(12,74,74,0.92);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  color: #fff; cursor: pointer; display: none;
+  align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  transition: background .2s ease, transform .1s ease;
+}
+.stock-filters-arrow:hover  { background: var(--teal-700); }
+.stock-filters-arrow:active { transform: translateY(-50%) scale(0.92); }
+.stock-filters-arrow svg { width: 16px; height: 16px; }
+.stock-filters-arrow.left  { left: -6px; }
+.stock-filters-arrow.right { right: -6px; }
+.stock-filters-wrap.can-left  .stock-filters-arrow.left  { display: flex; }
+.stock-filters-wrap.can-right .stock-filters-arrow.right { display: flex; }
+
 .stock-result-info {
   font-size: 12px;
   color: rgba(255,255,255,0.55);
@@ -475,310 +506,103 @@ button { font-family: inherit; cursor: pointer; }
 }
 .stock-empty button:hover { background: rgba(255,255,255,0.15); }
 
-/* stock cards — big 1:1 image on top */
-.stock-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-.stock-card {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 14px;
-  overflow: hidden;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-  display: flex; flex-direction: column;
-}
-.stock-card:hover {
-  background: rgba(255,255,255,0.09);
-  border-color: rgba(255,255,255,0.18);
-  transform: translateY(-3px);
-}
-.stock-card.open {
-  background: rgba(255,255,255,0.09);
-  border-color: rgba(255,255,255,0.18);
-}
+/* ═══════════ STOCK ACCORDION (kategori → varian → warna) ═══════════ */
+/* NOTE: the old .stock-card / .stock-variant-* rules below the responsive
+   section are now unused and safe to delete when you like. */
+.stock-grid { display: flex; flex-direction: column; gap: 10px; }
 
-/* Big 1:1 image */
-.stock-card-media {
-  position: relative;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  background: linear-gradient(135deg, var(--teal-800), var(--teal-900));
-}
-.stock-card-media img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-.stock-card:hover .stock-card-media img { transform: scale(1.05); }
-.stock-card-media::after {
-  content: "";
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(12,74,74,0.5) 100%);
-  pointer-events: none;
-}
-.stock-status {
-  position: absolute;
-  top: 10px; left: 10px;
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  z-index: 2;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-.stock-status.high { background: rgba(34,197,94,0.85); color: #052e16; border: 1px solid rgba(34,197,94,0.5); }
-.stock-status.medium { background: rgba(251,191,36,0.85); color: #451a03; border: 1px solid rgba(251,191,36,0.5); }
-.stock-status.low { background: rgba(248,113,113,0.85); color: #450a0a; border: 1px solid rgba(248,113,113,0.5); }
-.stock-variant-badge {
-  position: absolute;
-  top: 10px; right: 10px;
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--white);
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 2;
-  letter-spacing: 0;
-}
-/* Neutral category (fabric type) badge — replaces the old stock-status badge */
-.stock-cat-badge {
-  position: absolute;
-  top: 10px; left: 10px;
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  z-index: 2;
-  color: var(--teal-900);
-  background: rgba(255,255,255,0.9);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-/* Flat variant rows — colors shown inline (removes the old 2nd-level accordion) */
-.stock-variant-row-static {
-  display: flex; align-items: baseline; justify-content: space-between;
-  gap: 8px; padding: 9px 10px 6px;
-}
-.stock-variant-colors-inline {
-  display: flex; flex-wrap: wrap; gap: 5px;
-  padding: 0 10px 10px;
-}
-
-/* Card body */
-.stock-card-body {
-  padding: 14px 14px 0;
-  display: flex; flex-direction: column;
-  gap: 10px;
-}
-.stock-card-name {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--white);
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.stock-card-amount-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-}
-.stock-card-amount { display: flex; align-items: baseline; gap: 4px; }
-.stock-card-number {
-  font-size: 22px; font-weight: 800;
-  color: var(--white); letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
-  line-height: 1;
-}
-.stock-card-unit {
-  font-size: 11px; color: rgba(255,255,255,0.5); font-weight: 500;
-}
-.stock-card-pct {
-  font-size: 11px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.55);
-  font-variant-numeric: tabular-nums;
-}
-.stock-card-pct.high { color: var(--teal-300); }
-.stock-card-pct.medium { color: #fcd34d; }
-.stock-card-pct.low { color: #fca5a5; }
-
-/* Slim progress bar */
-.stock-card-bar {
-  height: 4px;
-  background: rgba(255,255,255,0.08);
-  overflow: hidden;
-  border-radius: 999px;
-  margin: 0 14px;
-}
-.stock-card-bar-fill { height: 100%; transition: width 1.2s ease; border-radius: 999px; }
-.stock-card-bar-fill.high { background: var(--teal-400); }
-.stock-card-bar-fill.medium { background: #fbbf24; }
-.stock-card-bar-fill.low { background: #f87171; }
-
-/* Variant dropdown toggle button */
-.stock-variant-toggle {
-  width: 100%;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 14px;
-  margin-top: 12px;
-  background: rgba(255,255,255,0.04);
-  border: none;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.8);
-  font-family: inherit;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-  text-align: left;
-}
-.stock-variant-toggle:hover { background: rgba(255,255,255,0.09); color: var(--white); }
-.stock-card.open .stock-variant-toggle { background: rgba(255,255,255,0.09); color: var(--white); }
-.stock-variant-toggle-left { display: inline-flex; align-items: center; gap: 8px; }
-.stock-variant-count {
-  color: rgba(255,255,255,0.4);
-  font-weight: 500;
-  letter-spacing: 0;
-  text-transform: none;
-  font-size: 11px;
-}
-.stock-variant-toggle svg {
-  width: 14px; height: 14px;
-  transition: transform 0.25s ease;
-  flex-shrink: 0;
-}
-.stock-card.open .stock-variant-toggle svg { transform: rotate(180deg); }
-
-/* Variant list — collapsible */
-.stock-variants-body {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.35s ease;
-}
-.stock-card.open .stock-variants-body { max-height: 2000px; }
-
-.stock-variants-inner {
-  padding: 0 12px 12px;
-  display: flex; flex-direction: column; gap: 6px;
-}
-.stock-variant-item {
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 8px;
-  overflow: hidden;
-  background: rgba(255,255,255,0.03);
-  transition: border-color 0.2s;
-}
-.stock-variant-item.open { border-color: rgba(255,255,255,0.16); background: rgba(255,255,255,0.05); }
-
-.stock-variant-row {
-  display: grid;
-  grid-template-columns: auto 1fr auto auto;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
-  background: transparent;
-  border: none;
-  color: var(--white);
-  font-family: inherit;
-  cursor: pointer;
-  width: 100%;
-  text-align: left;
-  transition: background 0.15s;
-}
-.stock-variant-row:hover { background: rgba(255,255,255,0.05); }
-.stock-variant-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  flex-shrink: 0;
-  display: inline-block;
-}
-.stock-variant-dot.high { background: var(--teal-400); }
-.stock-variant-dot.medium { background: #fbbf24; }
-.stock-variant-dot.low { background: #f87171; }
-.stock-variant-name {
-  font-size: 12px; font-weight: 600;
-  color: rgba(255,255,255,0.9);
-  letter-spacing: -0.005em;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
-.stock-variant-qty {
-  font-size: 12px; font-weight: 700;
-  color: var(--white);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-.stock-variant-qty small {
-  font-size: 9px; font-weight: 500;
-  color: rgba(255,255,255,0.4);
-  margin-left: 2px;
-}
-.stock-variant-chevron {
-  width: 12px; height: 12px;
-  color: rgba(255,255,255,0.4);
-  transition: transform 0.25s ease;
-  flex-shrink: 0;
-}
-.stock-variant-item.open .stock-variant-chevron { transform: rotate(180deg); }
-
-/* Colors panel per variant */
-.stock-variant-colors {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-  background: rgba(0,0,0,0.18);
-}
-.stock-variant-item.open .stock-variant-colors { max-height: 500px; }
-.stock-variant-colors-inner {
-  padding: 10px 10px 12px;
-}
-.stock-variant-colors-title {
-  font-size: 9px;
-  font-weight: 600;
-  color: rgba(255,255,255,0.4);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.stock-variant-colors-title span:last-child {
-  font-weight: 500;
-  letter-spacing: 0;
-  text-transform: none;
-  color: rgba(255,255,255,0.35);
-}
-.stock-variant-colors-list {
-  display: flex; flex-wrap: wrap; gap: 5px;
-}
-.stock-variant-color-chip {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 4px 9px 4px 4px;
+.stk-cat {
   background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 99px;
-  font-size: 10px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.85);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 14px; overflow: hidden;
+  transition: border-color .2s, box-shadow .2s;
 }
-.stock-variant-color-chip .swatch {
-  width: 14px; height: 14px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.2);
-  flex-shrink: 0;
+.stk-cat.open { border-color: rgba(255,255,255,0.18); box-shadow: 0 12px 30px -14px rgba(0,0,0,0.45); }
+
+/* Category bar — black panel with cover image on the left (ref: panel_category_product) */
+.stk-cat-head {
+  position: relative; overflow: hidden; width: 100%; border: 0; cursor: pointer;
+  display: flex; align-items: center; gap: 14px;
+  min-height: 78px; padding: 0 18px;
+  text-align: left; font-family: inherit; color: #fff;
+  background: linear-gradient(95deg, #0b433e 0%, #073430 100%);
+}
+/* Cover image strip on the left, faded into the black bar on its right edge */
+.stk-cat-cover {
+  position: absolute; left: 0; top: 0; bottom: 0; z-index: 0;
+  width: clamp(190px, 42%, 460px);
+  -webkit-mask-image: linear-gradient(90deg, #000 62%, transparent 100%);
+          mask-image: linear-gradient(90deg, #000 62%, transparent 100%);
+}
+.stk-cat-cover .cover-bg {  /* dark fabric-like placeholder shown until a real photo is set */
+  position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 6px),
+    repeating-linear-gradient(-45deg, rgba(255,255,255,0.03) 0 2px, transparent 2px 6px),
+    linear-gradient(150deg, #0e4a44, #062f2c);
+}
+.stk-cat-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.stk-cat-cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,0.30), rgba(0,0,0,0.10) 60%, transparent); }
+
+/* Title (name + icon) sits over the cover image */
+.stk-cat-title { position: relative; z-index: 2; display: flex; align-items: center; gap: 9px; min-width: 0; flex-shrink: 1; }
+.stk-cat-title b { font-size: clamp(19px, 3.4vw, 28px); font-weight: 800; letter-spacing: -.02em; line-height: 1.05; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stk-cat-title svg { flex: none; width: clamp(20px, 2.6vw, 26px); height: auto; color: #fff; }
+
+.stk-cat-variants { position: relative; z-index: 2; flex: none; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.68); white-space: nowrap; }
+.stk-cat-spacer { flex: 1 1 auto; }
+.stk-cat-kg { position: relative; z-index: 2; flex: none; font-size: 15px; font-weight: 800; color: #fff; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.stk-cat-kg i { font-style: normal; font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.6); margin-left: 3px; }
+.stk-chev { position: relative; z-index: 2; flex: none; width: 20px; height: 20px; color: rgba(255,255,255,0.8); transition: transform .28s ease; }
+.stk-cat.open > .stk-cat-head .stk-chev { transform: rotate(180deg); }
+
+/* Category body (smooth expand) */
+.stk-cat-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .32s ease; }
+.stk-cat.open > .stk-cat-body { grid-template-rows: 1fr; }
+.stk-cat-body > div { overflow: hidden; }
+.stk-cat-inner { padding: 10px 12px 14px; display: flex; flex-direction: column; gap: 8px; }
+
+/* Variant */
+.stk-var { border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; overflow: hidden; background: rgba(255,255,255,0.03); transition: border-color .2s, background .2s; }
+.stk-var.open { border-color: rgba(255,255,255,0.16); background: rgba(255,255,255,0.05); }
+.stk-var-head {
+  width: 100%; border: 0; cursor: pointer; font-family: inherit; text-align: left;
+  display: flex; align-items: center; gap: 10px; padding: 11px 12px;
+  background: transparent; color: var(--white); transition: background .15s;
+}
+.stk-var-head:hover { background: rgba(255,255,255,0.05); }
+.stk-var-name { flex: 1; min-width: 0; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.92); letter-spacing: -.005em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stk-var-kg { flex: none; font-size: 13px; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.stk-var-kg i { font-style: normal; font-size: 9px; font-weight: 500; color: rgba(255,255,255,0.4); margin-left: 2px; }
+.stk-warna { flex: none; font-size: 11px; font-weight: 600; color: var(--teal-200); background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 999px; padding: 3px 9px; white-space: nowrap; }
+.stk-chev.sm { width: 15px; height: 15px; color: rgba(255,255,255,0.5); }
+.stk-var.open > .stk-var-head .stk-chev.sm { transform: rotate(180deg); }
+
+.stk-var-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+.stk-var.open > .stk-var-body { grid-template-rows: 1fr; }
+.stk-var-body > div { overflow: hidden; }
+
+/* Color swatch grid — dense, auto-fits desktop & mobile */
+.stk-colors { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 7px; padding: 10px; background: rgba(0,0,0,0.18); }
+.stk-color { display: flex; flex-direction: column; overflow: hidden; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.10); border-radius: 9px; }
+.stk-sw { position: relative; aspect-ratio: 3/2; background: var(--c, #999); }
+.stk-sw::before { content:""; position:absolute; inset:0; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12), inset 0 -14px 20px -14px rgba(0,0,0,0.40); }
+.stk-sw.woven::after {
+  content:""; position:absolute; inset:0; opacity:.42; mix-blend-mode:soft-light;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.6) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(0deg, rgba(0,0,0,.4) 0 1px, transparent 1px 4px);
+}
+.stk-cn { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.9); padding: 5px 5px 6px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+@media (max-width: 540px) {
+  .stk-colors { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 6px; padding: 8px; }
+  .stk-cat-head { min-height: 66px; padding: 0 14px; gap: 10px; }
+  .stk-cat-cover { width: 46%; }
+  .stk-cat-title b { font-size: 17px; }
+  .stk-cat-variants { display: none; }
+  .stk-cat-kg { font-size: 13px; }
+  .stk-var-name { font-size: 12px; }
 }
 
 .stock-footnote {
@@ -2808,7 +2632,15 @@ button { font-family: inherit; cursor: pointer; }
         </button>
       </div>
       <!-- Category filter pills — rendered from data by renderStockFilters() -->
-      <div class="stock-filters" id="stockFilters"></div>
+      <div class="stock-filters-wrap">
+        <button class="stock-filters-arrow left" type="button" aria-label="Geser kategori ke kiri">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div class="stock-filters" id="stockFilters"></div>
+        <button class="stock-filters-arrow right" type="button" aria-label="Geser kategori ke kanan">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
     </div>
 
     <div class="stock-result-info" id="stockResultInfo"></div>
@@ -3345,106 +3177,81 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 // ═══════════════════ STOCK DATA ═══════════════════
 // Setiap varian punya stok (Kg) + daftar warna lengkap.
 // Total stok produk dihitung otomatis dari jumlah stok semua varian.
+// ═══════════════════ STOCK DATA ═══════════════════
+// Katalog: kategori -> varian -> SEMUA warna.
+// • Nama warna yg belum ada aslinya tampil sbg "Warna N" — silakan ganti.
+// • stock (Kg) per varian masih PLACEHOLDER — ganti dgn angka stok asli.
+function stkHslHex(i){
+  var h=(i*47)%360, s=0.46, l=0.60, a=s*Math.min(l,1-l);
+  function fn(n){var k=(n+h/30)%12;return Math.round(255*(l-a*Math.max(-1,Math.min(k-3,Math.min(9-k,1)))));}
+  function hx(v){return ('0'+v.toString(16)).slice(-2);}
+  return '#'+hx(fn(0))+hx(fn(8))+hx(fn(4));
+}
+var STK_PALETTE=[
+  {name:"Putih",hex:"#F5F5F1"},{name:"Hitam",hex:"#23272E"},{name:"Abu",hex:"#9AA1A6"},
+  {name:"Abu Muda",hex:"#C3C8CC"},{name:"Navy",hex:"#1F2A52"},{name:"Misty",hex:"#C6CBCE"},
+  {name:"Maroon",hex:"#6E2230"},{name:"Mustard",hex:"#D1962A"},{name:"Army Green",hex:"#4B5320"},
+  {name:"Biru Baby",hex:"#A9D3E8"},{name:"Tosca",hex:"#1FAE9A"},{name:"Mocca",hex:"#8A6A4F"},
+  {name:"Dusty",hex:"#B79AA3"},{name:"Cream",hex:"#F1E9D2"},{name:"Olive",hex:"#6F7331"},
+  {name:"Merah",hex:"#C33636"},{name:"Kuning",hex:"#F2C43D"},{name:"Orange",hex:"#E08535"},
+  {name:"Peach",hex:"#F4C1A3"},{name:"Salem",hex:"#E9A58C"},{name:"Pink",hex:"#E79BB6"},
+  {name:"Lavender",hex:"#C3B5E0"},{name:"Ungu",hex:"#7A4FAE"},{name:"Coklat",hex:"#6A4A34"},
+  {name:"Sage",hex:"#9CAF88"},{name:"Beige",hex:"#E6D8BF"},{name:"Turkis",hex:"#16BFB0"},
+  {name:"Hijau Botol",hex:"#1F5138"},{name:"Biru Benhur",hex:"#2A4A9C"},{name:"Gold",hex:"#C9A24B"}
+];
+// Hasilkan tepat "count" warna: pakai PALETTE dulu, sisanya placeholder "Warna N".
+function stkFill(count){
+  var a=[];
+  for(var i=0;i<count;i++) a.push(i<STK_PALETTE.length ? STK_PALETTE[i] : {name:"Warna "+(i+1),hex:stkHslHex(i)});
+  return a;
+}
+// Gabung daftar warna asli + placeholder sampai "total".
+function stkPad(real,total){
+  var a=real.slice();
+  for(var i=real.length;i<total;i++) a.push({name:"Warna "+(i+1),hex:stkHslHex(i)});
+  return a;
+}
+// 32 warna asli Cotton Combed 24s (dari katalog) — sisanya sampai 77 = placeholder.
+var STK_COMBED24=[
+  {name:"Abu",hex:"#9AA1A6"},{name:"Abu Muda",hex:"#C3C8CC"},{name:"Aqua Foam",hex:"#A9E5D0"},
+  {name:"Army Green",hex:"#4B5320"},{name:"Banana Cream",hex:"#F4E6A1"},{name:"Beige",hex:"#E6D8BF"},
+  {name:"Biru Baby",hex:"#A9D3E8"},{name:"Biru New",hex:"#20418C"},{name:"Biru Pon",hex:"#2F6FD0"},
+  {name:"Biru Sedang",hex:"#3F78D6"},{name:"Coklat",hex:"#6A4A34"},{name:"Cream",hex:"#F1E9D2"},
+  {name:"Dusty",hex:"#B79AA3"},{name:"Hijau Botol",hex:"#1F5138"},{name:"Hijau Tosca",hex:"#1FAE9A"},
+  {name:"Hitam",hex:"#23272E"},{name:"Kuning",hex:"#F2C43D"},{name:"Lavender",hex:"#C3B5E0"},
+  {name:"Maroon",hex:"#6E2230"},{name:"Merah",hex:"#C33636"},{name:"Merah Bata",hex:"#B25A3E"},
+  {name:"Mocca",hex:"#8A6A4F"},{name:"Mustard",hex:"#D1962A"},{name:"Navy",hex:"#1F2A52"},
+  {name:"Olive",hex:"#6F7331"},{name:"Orange",hex:"#E08535"},{name:"Peach",hex:"#F4C1A3"},
+  {name:"Pink",hex:"#E79BB6"},{name:"Putih",hex:"#F5F5F1"},{name:"Salem",hex:"#E9A58C"},
+  {name:"Tosca",hex:"#16BFB0"},{name:"Ungu",hex:"#7A4FAE"}
+];
+
+// image: "" -> URL foto kategori (landscape, mis. 1200x675 / 16:9). Kosong = pakai tekstur default.
 var stockProducts = [
-  { name: "Cotton Combed", maxStock: 15000, image: "Image/cover homepage utama-03.png",
-    varian: [
-      { name: "Cotton Combed 20s", stock: 3200, colors: [
-        {name:"Putih", hex:"#FFFFFF"}, {name:"Hitam", hex:"#2C2E33"},
-        {name:"Navy", hex:"#1E3A5F"}, {name:"Abu", hex:"#8E8E8E"},
-        {name:"Maroon", hex:"#5B1A1A"}, {name:"Cream", hex:"#E8DDD0"}
-      ]},
-      { name: "Cotton Combed 24s", stock: 2850, colors: [
-        {name:"Putih", hex:"#FFFFFF"}, {name:"Hitam", hex:"#2C2E33"},
-        {name:"Navy", hex:"#1E3A5F"}, {name:"Merah", hex:"#B8452E"},
-        {name:"Olive", hex:"#6B6B3A"}, {name:"Abu", hex:"#8E8E8E"}
-      ]},
-      { name: "Cotton Combed 28s", stock: 2100, colors: [
-        {name:"Putih", hex:"#FFFFFF"}, {name:"Hitam", hex:"#2C2E33"},
-        {name:"Dusty Rose", hex:"#D9A5A5"}, {name:"Sage", hex:"#6B8E5A"}
-      ]},
-      { name: "Cotton Combed 30s", stock: 2680, colors: [
-        {name:"Putih", hex:"#FFFFFF"}, {name:"Hitam", hex:"#2C2E33"},
-        {name:"Abu Muda", hex:"#B4B4B4"}, {name:"Navy", hex:"#1E3A5F"},
-        {name:"Mocca", hex:"#8B4A3F"}, {name:"Mustard", hex:"#E8B84A"}
-      ]},
-      { name: "Cotton Combed 40s", stock: 1650, colors: [
-        {name:"Putih", hex:"#FFFFFF"}, {name:"Cream", hex:"#E8DDD0"},
-        {name:"Dusty Pink", hex:"#D9A5A5"}
-      ]}
-    ]
-  },
-  { name: "CVC", maxStock: 10000, image: "Image/cover homepage utama-01.png",
-    varian: [
-      { name: "CVC 20s Lacoste", stock: 2400, colors: [
-        {name:"Putih", hex:"#FFFFFF"}, {name:"Hitam", hex:"#2C2E33"},
-        {name:"Merah", hex:"#B8452E"}, {name:"Biru", hex:"#2E8FB8"},
-        {name:"Navy", hex:"#1E3A5F"}, {name:"Kuning", hex:"#E8B84A"}
-      ]},
-      { name: "CVC 24s Lacoste", stock: 2200, colors: [
-        {name:"Putih", hex:"#FFFFFF"}, {name:"Hitam", hex:"#2C2E33"},
-        {name:"Biru", hex:"#2E8FB8"}, {name:"Sky", hex:"#6BC4D9"},
-        {name:"Hijau", hex:"#6B8E5A"}, {name:"Maroon", hex:"#4A1F1F"}
-      ]},
-      { name: "CVC 30s", stock: 1600, colors: [
-        {name:"Putih", hex:"#FFFFFF"}, {name:"Hitam", hex:"#2C2E33"},
-        {name:"Abu", hex:"#8E8E8E"}, {name:"Navy", hex:"#1E3A5F"}
-      ]}
-    ]
-  },
-  { name: "Cotton Special", maxStock: 12000, image: "Image/cover homepage utama-04.png",
-    varian: [
-      { name: "Versa Heavy", stock: 2450, colors: [
-        {name:"Hitam", hex:"#2C2E33"}, {name:"Charcoal", hex:"#4A4D55"},
-        {name:"Mocca", hex:"#8B4A3F"}, {name:"Cream", hex:"#E8DDD0"},
-        {name:"Olive", hex:"#6B6B3A"}, {name:"Navy", hex:"#1E3A5F"}
-      ]},
-      { name: "Elastech", stock: 1900, colors: [
-        {name:"Putih", hex:"#FFFFFF"}, {name:"Hitam", hex:"#2C2E33"},
-        {name:"Navy", hex:"#1E3A5F"}, {name:"Abu", hex:"#8E8E8E"}
-      ]},
-      { name: "24s Washed", stock: 1650, colors: [
-        {name:"Faded Black", hex:"#4A4D55"}, {name:"Vintage Navy", hex:"#2C3E5F"},
-        {name:"Washed Beige", hex:"#C4B5A0"}, {name:"Stone", hex:"#A89F91"}
-      ]},
-      { name: "Printing", stock: 1550, colors: [
-        {name:"Putih", hex:"#FFFFFF"}, {name:"Cream", hex:"#E8DDD0"}
-      ]},
-      { name: "Supreme", stock: 1200, colors: [
-        {name:"Hitam", hex:"#2C2E33"}, {name:"Putih", hex:"#FFFFFF"},
-        {name:"Abu", hex:"#8E8E8E"}
-      ]}
-    ]
-  },
-  { name: "Bamboo Cotton", maxStock: 8000, image: "Image/cover homepage utama-03.png",
-    varian: [
-      { name: "Bamboo Cotton 30s", stock: 4320, colors: [
-        {name:"Maroon", hex:"#8B2E2E"}, {name:"Sage", hex:"#6B8E5A"},
-        {name:"Steel Blue", hex:"#3B6B8E"}, {name:"Cream", hex:"#E8DDD0"},
-        {name:"Charcoal", hex:"#2C2E33"}, {name:"Terracotta", hex:"#C97B4E"}
-      ]}
-    ]
-  },
-  { name: "Cotton Fleece", maxStock: 6000, image: "Image/cover homepage utama-06.png",
-    varian: [
-      { name: "Fleece Cotton", stock: 2100, colors: [
-        {name:"Hitam", hex:"#2C2E33"}, {name:"Abu", hex:"#8E8E8E"},
-        {name:"Navy", hex:"#1E3A5F"}, {name:"Maroon", hex:"#5B1A1A"},
-        {name:"Charcoal", hex:"#4A4D55"}
-      ]},
-      { name: "Fleece TC / CVC", stock: 1300, colors: [
-        {name:"Hitam", hex:"#2C2E33"}, {name:"Abu", hex:"#8E8E8E"},
-        {name:"Navy", hex:"#1E3A5F"}, {name:"Hijau Army", hex:"#3A5A3A"}
-      ]}
-    ]
-  },
-  { name: "Knitease Danball", maxStock: 5000, image: "Image/cover homepage utama-02.png",
-    varian: [
-      { name: "M-TIIS Flexxair", stock: 1850, colors: [
-        {name:"Hitam", hex:"#2C2E33"}, {name:"Navy", hex:"#1E3A5F"},
-        {name:"Charcoal", hex:"#4A4D55"}, {name:"Abu", hex:"#8E8E8E"}
-      ]}
-    ]
-  }
+  { name: "Cotton", image: "Image/cotton stock.png", varian: [
+    { name: 'Cotton Combed 20s 42"', stock: 3200, colors: stkFill(4) },
+    { name: 'Cotton Combed 24s 42"', stock: 5200, colors: stkPad(STK_COMBED24, 77) },
+    { name: 'Cotton Combed 30s 42"', stock: 4800, colors: stkFill(75) }
+  ]},
+  { name: "CVC", image: "Image/cvc stock.png", varian: [
+    { name: 'CVC 20s Lacoste 36"', stock: 2400, colors: stkFill(31) },
+    { name: 'CVC 24s Lacoste 36"', stock: 3600, colors: stkFill(67) },
+    { name: 'CVC 24s Lacoste 42"', stock: 300, colors: stkFill(2) }
+  ]},
+  { name: "Cotton Special", image: "Image/cotton special stock.png", varian: [
+    { name: "Rocky Cotton", stock: 2450, colors: stkFill(13) },
+    { name: 'Versa Heavy Weight Rocky Hard 36"', stock: 800, colors: stkFill(1) },
+    { name: 'Cotton Elastech 30s 72"', stock: 1900, colors: stkFill(4) }
+  ]},
+  { name: "Bamboo Cotton", image: "Image/bamboo stock.png", varian: [
+    { name: 'Bamboo Cotton 30s 42"', stock: 4320, colors: stkFill(8) }
+  ]},
+  { name: "Knitease Danball", image: "Image/danball stock.png", varian: [
+    { name: 'Knitease Danball 200 64"', stock: 1850, colors: stkFill(6) }
+  ]},
+  { name: "STARTER PACK", image: "Image/starterpack stock.png", varian: [
+    { name: 'Starter Versa Cotton 24s 42"', stock: 400, colors: stkFill(1) }
+  ]}
 ];
 
 // Derive per-product stock total from variants (status labels removed by request)
@@ -3464,48 +3271,54 @@ var stockState = {
   filter: 'all'
 };
 
+var STK_COVER_TINTS = [
+  'linear-gradient(150deg,#0e7d6c,#0a5249)','linear-gradient(150deg,#3a6ea5,#274b73)',
+  'linear-gradient(150deg,#6b7a3a,#47531f)','linear-gradient(150deg,#8a5a3c,#5e3a26)',
+  'linear-gradient(150deg,#7a4f8a,#4f2f5e)','linear-gradient(150deg,#b08428,#7a5a17)',
+  'linear-gradient(150deg,#2f8f7a,#1f5f52)','linear-gradient(150deg,#a85a5a,#6e2f2f)',
+  'linear-gradient(150deg,#4a5568,#2d3444)','linear-gradient(150deg,#2f8fb0,#1f6076)'
+];
+var STK_ICONS = {
+  "Cotton":          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="2.3"/><circle cx="8.5" cy="10.5" r="2.3"/><circle cx="15.5" cy="10.5" r="2.3"/><circle cx="12" cy="12" r="2.6"/><path d="M12 14.5V20M9.5 20h5"/></svg>',
+  "CVC":             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4v16M11 4v16M17 4v16M5 8h14M5 14h14"/></svg>',
+  "Cotton Special":  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 11-12 0c0-4.5 6-11 6-11z"/></svg>',
+  "Bamboo Cotton":   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20C4 9 20 4 20 4s-1 16-12 16c-3 0-4-2-4-2z"/><path d="M8 16l7-7"/></svg>',
+  "Knitease Danball":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v10l-8 4-8-4V7l8-4z"/><path d="M4 7l8 4 8-4M12 11v10"/></svg>',
+  "STARTER PACK":    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-5 9 5-9 5-9-5z"/><path d="M3 9v6l9 5 9-5V9"/></svg>',
+  _default:          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="4" width="10" height="16" rx="2"/><path d="M10 4v16M14 4v16"/></svg>'
+};
+
+// Build ONE category accordion: category bar -> variants -> color swatch grid.
 function buildStockCardHTML(p, pi) {
-  var variantItems = p.varian.map(function(v) {
-    var colorChips = v.colors.map(function(c) {
-      var borderStyle = c.hex.toUpperCase() === '#FFFFFF' ? ';border-color:rgba(255,255,255,0.35)' : '';
-      return '<span class="stock-variant-color-chip">' +
-        '<span class="swatch" style="background:' + c.hex + borderStyle + '"></span>' +
-        escapeHtml(c.name) +
-      '</span>';
+  var catIcon = STK_ICONS[p.name] || STK_ICONS._default;
+  var coverImg = p.image ? '<img src="' + escapeHtml(p.image) + '" alt="' + escapeHtml(p.name) + '" loading="lazy" onerror="this.remove()">' : '';
+  var variantsHTML = p.varian.map(function(v) {
+    var colorTiles = v.colors.map(function(c) {
+      return '<div class="stk-color" title="' + escapeHtml(c.name) + '">' +
+        '<span class="stk-sw woven" style="--c:' + c.hex + '"></span>' +
+        '<span class="stk-cn">' + escapeHtml(c.name) + '</span>' +
+      '</div>';
     }).join('');
-    return '<div class="stock-variant-item">' +
-      '<div class="stock-variant-row-static">' +
-        '<span class="stock-variant-name">' + escapeHtml(v.name) + '</span>' +
-        '<span class="stock-variant-qty">' + v.stock.toLocaleString('id-ID') + '<small>Kg</small></span>' +
-      '</div>' +
-      '<div class="stock-variant-colors-inline">' + colorChips + '</div>' +
+    return '<div class="stk-var" data-vname="' + escapeHtml(v.name.toLowerCase()) + '">' +
+      '<button class="stk-var-head" type="button" data-toggle="var">' +
+        '<span class="stk-var-name">' + escapeHtml(v.name) + '</span>' +
+        '<span class="stk-var-kg">' + v.stock.toLocaleString('id-ID') + '<i>Kg</i></span>' +
+        '<span class="stk-warna">' + v.colors.length + ' warna</span>' +
+        '<svg class="stk-chev sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>' +
+      '</button>' +
+      '<div class="stk-var-body"><div><div class="stk-colors">' + colorTiles + '</div></div></div>' +
     '</div>';
   }).join('');
-  return '<div class="stock-card" data-pi="' + pi + '" data-cat="' + escapeHtml(p.name) + '">' +
-    '<div class="stock-card-media">' +
-      '<img src="' + p.image + '" alt="' + escapeHtml(p.name) + '" loading="lazy">' +
-      '<span class="stock-cat-badge">' + escapeHtml(p.name) + '</span>' +
-      '<span class="stock-variant-badge">' + p.varian.length + ' varian</span>' +
-    '</div>' +
-    '<div class="stock-card-body">' +
-      '<div class="stock-card-name">' + escapeHtml(p.name) + '</div>' +
-      '<div class="stock-card-amount-row">' +
-        '<div class="stock-card-amount">' +
-          '<span class="stock-card-number">' + p.stock.toLocaleString('id-ID') + '</span>' +
-          '<span class="stock-card-unit">Kg tersedia</span>' +
-        '</div>' +
-      '</div>' +
-    '</div>' +
-    '<button class="stock-variant-toggle" type="button" data-toggle="card" data-pi="' + pi + '">' +
-      '<span class="stock-variant-toggle-left">' +
-        'Lihat Varian' +
-        '<span class="stock-variant-count">' + p.varian.length + ' tipe</span>' +
-      '</span>' +
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>' +
+  return '<div class="stk-cat" data-cat="' + escapeHtml(p.name) + '">' +
+    '<button class="stk-cat-head" type="button" data-toggle="cat">' +
+      '<span class="stk-cat-cover"><span class="cover-bg"></span>' + coverImg + '</span>' +
+      '<span class="stk-cat-title"><b>' + escapeHtml(p.name) + '</b>' + catIcon + '</span>' +
+      '<span class="stk-cat-variants">' + p.varian.length + ' varian</span>' +
+      '<span class="stk-cat-spacer"></span>' +
+      '<span class="stk-cat-kg">' + p.stock.toLocaleString('id-ID') + '<i>Kg</i></span>' +
+      '<svg class="stk-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>' +
     '</button>' +
-    '<div class="stock-variants-body">' +
-      '<div class="stock-variants-inner">' + variantItems + '</div>' +
-    '</div>' +
+    '<div class="stk-cat-body"><div><div class="stk-cat-inner">' + variantsHTML + '</div></div></div>' +
   '</div>';
 }
 
@@ -3551,6 +3364,18 @@ function renderStockGrid() {
   grid.innerHTML = results.map(function(item) {
     return buildStockCardHTML(item.p, item.pi);
   }).join('');
+
+  // Auto-open when searching so results are visible; otherwise open the first category.
+  if (stockState.query) {
+    var qq = stockState.query.trim().toLowerCase();
+    grid.querySelectorAll('.stk-cat').forEach(function(cat){ cat.classList.add('open'); });
+    grid.querySelectorAll('.stk-var').forEach(function(vr){
+      if (vr.getAttribute('data-vname').indexOf(qq) !== -1) vr.classList.add('open');
+    });
+  } else {
+    var firstCat = grid.querySelector('.stk-cat');
+    if (firstCat) firstCat.classList.add('open');
+  }
 }
 
 // Build category (fabric-type) filter pills from the product data.
@@ -3614,24 +3439,43 @@ function initStockControls() {
       if (!btn) return;
       stockState.filter = btn.getAttribute('data-filter');
       setActiveFilterPill();
+      btn.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
       renderStockGrid();
     });
   }
 }
 
+function initFilterSlider() {
+  var wrap  = document.querySelector('.stock-filters-wrap');
+  var track = document.getElementById('stockFilters');
+  if (!wrap || !track) return;
+  function update() {
+    var max = track.scrollWidth - track.clientWidth - 1;
+    wrap.classList.toggle('can-left',  track.scrollLeft > 2);
+    wrap.classList.toggle('can-right', track.scrollLeft < max);
+  }
+  var L = wrap.querySelector('.stock-filters-arrow.left');
+  var R = wrap.querySelector('.stock-filters-arrow.right');
+  if (L) L.addEventListener('click', function () { track.scrollBy({ left: -220, behavior: 'smooth' }); });
+  if (R) R.addEventListener('click', function () { track.scrollBy({ left:  220, behavior: 'smooth' }); });
+  track.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+}
+
 function renderStockCards() {
   renderStockFilters();
   initStockControls();
+  initFilterSlider();
   renderStockGrid();
 
   // Single "Lihat Varian" accordion per card (colors now shown inline — no 2nd level)
   var grid = document.getElementById('stockGrid');
   grid.addEventListener('click', function(e) {
-    var cardToggle = e.target.closest('[data-toggle="card"]');
-    if (cardToggle) {
-      var card = cardToggle.closest('.stock-card');
-      if (card) card.classList.toggle('open');
-    }
+    var catToggle = e.target.closest('[data-toggle="cat"]');
+    if (catToggle) { var cat = catToggle.closest('.stk-cat'); if (cat) cat.classList.toggle('open'); return; }
+    var varToggle = e.target.closest('[data-toggle="var"]');
+    if (varToggle) { var vr = varToggle.closest('.stk-var'); if (vr) vr.classList.toggle('open'); }
   });
 }
 
